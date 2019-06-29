@@ -17,45 +17,124 @@ class UsuarioController extends ControladorBase{
 			$usuario=new UsuarioSitio($this->adapter);
 
 			//Conseguimos todos los usuarios
-			$allusers=$usuario->getAll();
+			//$allusers=$usuario->getAll();
 
 		   //Cargamos la vista index y le pasamos valores
+       $this->view("index","");
+       /*
 			$this->view("index",array(
 				"allusers"=>$allusers,
 				"UnaVariableDeLaVista"    =>"Valor de la Vista"
-			));
+			));*/
 		}
+    public function iniciar(){
 
+    			//Creamos el objeto usuario
+    			$usuario=new UsuarioSitio($this->adapter);
+
+    			//Conseguimos todos los usuarios
+    			$allusers=$usuario->getAll();
+
+    		   //Cargamos la vista index y le pasamos valores
+    			$this->view("iniciar",array(
+    				"allusers"=>$allusers,
+    				"UnaVariableDeLaVista"    =>"Valor de la Vista"
+    			));
+    		}
 		//Muestra el formulario de inserción
 		public function insertar(){
 
 			//Conseguimos todos los usuarios
-			$provincia=new Provincia($this->adapter);
-			$allProvincias= $provincia->getAll();
+		//	$provincia=new Provincia($this->adapter);
+	//		$allProvincias= $provincia->getAll();
 
 			//Cargamos la vista para mostrar formulario de insert
-			$this->view("insertar",array(
-				"allProvincias"=>$allProvincias
-			));
+			$this->view("insertar");
 
 		}
+
+    public function registrar(){
+      //Creamos el objeto usuario
+      $usuario=new UsuarioSitio($this->adapter);
+
+      //Conseguimos todos los usuarios
+    //  $allusers=$usuario->getAll();
+
+       //Cargamos la vista index y le pasamos valores
+      /*$this->view("registrar",array(
+        "allusers"=>$allusers,
+        "UnaVariableDeLaVista"    =>"Valor de la Vista"
+      ));*/
+      $this->view("registrar",array());
+    }
 
 		//Procesa los datos del formulario de inserción
 		public function crear(){
 			if(isset($_POST["nombre"])){
 
 				//Creamos un usuario
-				$usuario=new Usuario($this->adapter);
+				$usuario=new UsuarioSitio($this->adapter);
+        $usuario->setUsuario($_POST["usuario"]);
+        $usuario->setPassword($_POST["password"]);
+        $usuario->setUsuarioUltMod(NULL);
+        $hoy=strftime( "%Y-%m-%d-%H-%M-%S", time() );
+        $usuario->setFechaAlta($hoy);
+        $usuario->setFechaUltMod(NULL);
 				$usuario->setNombre($_POST["nombre"]);
 				$usuario->setApellido($_POST["apellido"]);
-				$usuario->setEmail($_POST["email"]);
+        $usuario->setSexo($_POST["sexo"]);
+				$usuario->setMail($_POST["mail"]);
+        $usuario->setTelefono($_POST["telefono"]);
+        $fileName=$_FILES['imagenPerfil']['name'];
+        $tmpName=$_FILES['imagenPerfil']['tmp_name'];
+
+        $fileSize=$_FILES['imagenPerfil']['size'];
+  	    $fileType=$_FILES['imagenPerfil']['type'];
+        if($tmpName==""){
+          echo "esta vacio";
+        }else{
+          echo $tmpName;
+        }
+        //si es menor de 1 mega subirlo
+
+        if($fileSize<3000000){
+          if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){
+        	   echo "<br>";
+        	   echo $fileName;
+        	   echo "<br>";
+        	   echo $tmpName;
+        	   $imagenes=$_SERVER['DOCUMENT_ROOT']."/mascotitas/assets/img/usuario_sitio/";
+        	   echo "<br>";
+        	   echo $imagenes;
+        	   $extension=explode("/",$fileType);
+        	   $fileName=$usuario->getUsuario().'.'.$extension[1];
+        	   $filePath=$imagenes.$fileName;
+        	   echo "<br>";
+        	   echo $filePath;
+        	   echo "<br>";
+        	   if($result=move_uploaded_file($tmpName, $filePath)){
+        		    $usuario->setImagenPerfil($filePath);
+        	   }else{
+                echo "no se subio";
+                exit;
+             }
+        		 }else{
+        				echo "debe subir imagen con extension .jpg .jpeg .gif o .png";
+        		 }
+
+        	}else{
+        	  echo "la imagen supera 1 MB";
+        	}
+
 
 				//al constructor de provincia le paso el id
-				$provincia = new Provincia($this->adapter);
-				$provincia->setId($_POST["provincia"]);
-				$usuario->setProvincia($provincia);
+			//	$provincia = new Provincia($this->adapter);
+		//		$provincia->setId($_POST["provincia"]);
+		//		$usuario->setProvincia($provincia);
 
-				$usuario->setPassword(sha1($_POST["password"]));
+				//$usuario->setPassword(sha1($_POST["password"]));
+        //ver si se puede poner encriptacion
+
 				$save=$usuario->save();
 			}
 			$this->redirect("Usuario", "index");
@@ -114,6 +193,34 @@ class UsuarioController extends ControladorBase{
 			$this->redirect("Usuario", "index");
 		}
 
+    public function validarSesion(){
+      $mensaje="";
+
+if(isset($_POST['btn-accion']))
+{
+	$usuario= $_POST['usuario'];
+  $psw= $_POST['psw'];
+	include("conexion.php");
+	session_start();
+
+
+	$consulta= "SELECT * FROM usuario_sitio WHERE usuario='$usuario' AND password='$psw';";
+	$resultado= $mysqli->query($consulta);
+	$fila=$resultado->fetch_array();
+
+	if (!$fila['id'] || !$fila['password']){
+		$mensaje='<span>usuario o contraseña incorrecta</span>';
+	}
+	else{
+		$_SESSION['id'] = $fila['id'];
+		$_SESSION['usuario'] = $fila['usuario'];
+		$_SESSION['password']=$fila['password'];
+
+		//$mensaje='<script>location.href = "menu.php"</script>';
+  //ver si anda  $this->redirect("Usuario", "muro");
+	}
+}
+    }
 
 
 }
