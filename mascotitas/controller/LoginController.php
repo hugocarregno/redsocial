@@ -14,8 +14,8 @@
     public function iniciar(){
       if(isset($_POST['btn-accion']))
       {
-        $email= $_POST['usuario'];
-        $psw= $_POST['psw'];
+        $email = $_POST['usuario'];
+        $psw = openssl_encrypt($_POST['psw'], COD, KEY);
       	session_start();
         //Creamos el objeto usuario
       	$usuario=new UsuarioSitio($this->adapter);

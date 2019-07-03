@@ -112,7 +112,7 @@ class UsuarioController extends ControladorBase{
         	   echo $fileName;
         	   echo "<br>";
         	   echo $tmpName;
-        	   $imagenes=$_SERVER['DOCUMENT_ROOT']."/mascotitas/assets/img/usuario_sitio/";
+        	   $imagenes=$_SERVER['DOCUMENT_ROOT']."clonaciones/mascotitas/assets/img/usuario_sitio/";
         	   echo "<br>";
         	   echo $imagenes;
         	   $extension=explode("/",$fileType);

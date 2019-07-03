@@ -38,7 +38,7 @@ class AdministradorController extends ControladorBase{
       }
 
       $admin->setUsuario($_POST["usuario"]);
-      $admin->setPassword($_POST["password"]);
+      $admin->setPassword(openssl_encrypt($_POST["password"], COD, KEY));
 
 
 
@@ -74,7 +74,7 @@ class AdministradorController extends ControladorBase{
            echo $fileName;
            echo "<br>";
            echo $tmpName;
-           $imagenes=$_SERVER['DOCUMENT_ROOT']."/mascotitas/assets/img/administrador/";
+           $imagenes=$_SERVER['DOCUMENT_ROOT']."/clonaciones/mascotitas/assets/img/administrador/";
            echo "<br>";
            echo $imagenes;
            $extension=explode("/",$fileType);
@@ -114,13 +114,14 @@ class AdministradorController extends ControladorBase{
     $this->view("panelAdministrador",array("administrador"=>$administrador));
   }else{
     echo "no";
-    //$nombre=$usuario->
-    //$this->view("index",array("usuario"=>$usuario));
   }
 
+  }
 
-
-    //$this->view("panelAdministrador", array('' => , ););
+  public function registrarAdministrador(){
+    session_start();
+    echo $_SESSION['id'];
+    
   }
 
 }
