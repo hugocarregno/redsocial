@@ -1,0 +1,204 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	font-size: 12pt;
+	text-decoration: none;
+	color: #000;
+}
+header.inicio, form, footer{
+	text-align: center;
+}
+footer{
+	width:100%;
+	float: left;
+}
+fieldset{
+	background-color:whitesmoke;
+	}
+
+legend{
+	color: black;
+	font-weight: bold;
+   }
+.container, .usuario_muro{
+	width: 1000px;
+	margin: auto;
+	margin-top:80px;
+}
+.usuario_nombre, .usuario_nombrecompleto{
+	display: block;
+	font-size: 16pt;
+	color: #001B31;
+	text-shadow: -1px -1px 14px rgba(255, 255, 255, 1);
+}
+.usuario_nombrecompleto{
+	float: left;
+}
+.usuario{
+	display: flex;
+	}
+/* cabecera muro */
+header.cabecera{
+	background: #a3a4a5;
+	position: fixed;
+	top: 0px;
+	width: 100%;
+	z-index: 1000;
+}
+header nav{
+	margin: auto;
+	height: 60px;
+	width: 100vw;
+}
+header nav li{
+	list-style: none;
+	margin-right: 10px;
+	height: 50px;
+	float: left;
+}
+header nav .menu_opcion{
+	margin-left: 500px;
+	padding-top: 20px;
+}
+header nav .opcion a, .opcion a{
+	color: #B0CCD8;
+}
+header nav a:hover, .opcion a:hover{
+	color:#fff;
+}
+header nav .opcion{
+	background: #5f6061;
+	border: 2px solid #104361;
+	border-bottom: 2px solid #000;
+	padding: 5px;
+	border-radius: 8px 8px 0 0;
+	font-weight: bold;
+	margin-top: 10px;
+}
+header ul{
+	height: 60px;
+}
+header .menu-foto{
+	display: inline-block;
+	margin: 5px;
+	border-radius: 100px;
+	width: 45px;
+	height: 45px;
+    background-color: #E1E1E0;
+}
+header input{
+	height: 30px;
+	background: transparent;
+	border:0;
+	padding-left: 15px;
+	min-width: 300px; 
+}
+header button{
+	height: 30px;
+	background: transparent;
+	border:0;
+}
+header form {
+	margin-top: 12px;	
+	border-radius: 100px;
+	background: white;
+	padding-right: 5px;
+}
+
+/* fin cabecera muro */
+/* muro */
+article{
+	float: left;
+	width: 680px;
+	padding: 10px;
+	padding-top: 0px;
+}
+section{
+	margin-bottom: 25px;
+	background: white;
+	border:1px solid #A1B1B4;
+	border-radius: 8px;
+}
+section.publicar{
+	text-align: right;
+	min-height: 150px;
+}
+section.publicar textarea{
+	width: 100%;
+	min-width: 660px;
+	max-width: 660px;
+	border:none;
+	background: transparent;
+	padding: 10px;
+	font-family: 'Raleway';
+	min-height: 111px;
+	max-height: 111px;
+	resize: none;
+}
+div.boton-publicar{
+	background: #DFE4E5;
+	border-radius: 0 0 8px 8px;
+}
+section .perfil{
+	border-bottom: 1px solid #D0D0D0;
+}
+section .publicacion{
+	padding: 20px;
+}
+section .perfil img{
+	border:2px solid white;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+}
+div.acciones{
+	padding:5px 0 10px 20px;
+	border-top:1px solid #D5D5D5;
+}
+div.comentarios{
+	padding:5px 0 10px 20px;
+	border-top:1px solid rgb(207, 207, 207);
+}
+div.usuario_menu{
+	height:400px;
+	border:1px solid #CCCCCC;
+	width:1000px;
+	margin:auto;
+	margin-top:30px;
+	background: #fff;
+	font-size: 0px;
+}
+.desplegable{
+	margin-top: 8px;
+	height: 350px;
+	
+}
+.foto{
+	padding: 10px;
+	float: left;
+}
+.publicado{
+	float: left;
+	padding: 10px;
+
+}
+section .publicado h2{
+	color: #006673;
+}
+section .publicado h3 a{
+	color: #B4B4B4;
+}
+.opcion{
+	background: #5f6061;
+	border: 2px solid #104361;
+	border-bottom: 2px solid #000;
+	padding: 5px;
+	border-radius: 8px 8px 0 0;
+	font-weight: bold;
+	margin-top: 10px;
+	float: left;
+	list-style: none;
+}
