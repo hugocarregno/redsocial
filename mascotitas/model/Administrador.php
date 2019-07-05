@@ -120,7 +120,6 @@ class Administrador extends EntidadBase{
   //sino es null entonces UPDATE
   //si es null entonces INSERT
   if($this->id){
-echo "entre en if";
     $query= "UPDATE administrador set usuario = '$this->usuario', password = '$this->password', fechaultmod = '$this->fechaultmod', fechaalta = '$this->fechaalta', estado = '$this->estado', nombre = '$this->nombre', apellido = '$this->apellido'
     ,sexo = '$this->sexo', mail = '$this->mail' ,telefono = '$this->telefono', imagenperfil = '$this->imagenperfil' where id = $this->id";
 
@@ -129,22 +128,6 @@ echo "entre en if";
     return $save;
 
   }else{
-    echo   $this->usuario
-           ."clave:".$this->password
-           ."fechamod:".$this->fechaultmod
-           ."fechaalta:".$this->fechaalta
-           ."estado:".$this->estado
-           ."nombre:".$this->nombre
-           ."apellido:".$this->apellido
-           ."sexo:".$this->sexo
-           ."mail:".$this->mail
-           ."telefono:".$this->telefono
-           ."imagen:".$this->imagenperfil;
-          //$hoy=strftime( "%Y-%m-%d-%H-%M-%S", time() );
-          //$hoy="";
-          //$this->setFechaAlta($hoy);
-          //$this->setUsuarioUltMod(NULL);
-          //$this->setFechaUltMod(NULL);
           $query="INSERT INTO administrador (id, usuario, password, usuarioultmod, fechaultmod, usuarioalta, fechaalta, estado, nombre, apellido, sexo, mail, telefono, imagenperfil)
               VALUES(NULL,'".$this->usuario."',
                      '".$this->password."',

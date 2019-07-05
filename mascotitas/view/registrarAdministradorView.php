@@ -15,7 +15,7 @@
         <fieldset>
             <legend>Administrador</legend>
                 <div>
-                    <input type="text" name="usuario" id="username" maxlength="50" required autocomplete="off" placeholder="Usuario">
+                    <input type="text" name="usuario" id="usuario" maxlength="50" autocomplete="off" placeholder="Usuario" required>
                 </div>
             <div>
                 <input type="password" name="password" id="password" maxlength="50" required autocomplete="off" placeholder="Contraseña">
@@ -27,21 +27,26 @@
                 <input type="text" name="apellido" id="apellido" maxlength="50" autocomplete="off" required  placeholder="Apellido">
             </div>
             <div>
-                <label for="masculino">Masculino</label><input type="radio" name='sexo' value='masculino' id='masculino'>
+                <label for="masculino">Masculino</label><input type="radio" name='sexo' value='masculino' id='masculino' checked>
                 <label for="femenino">Femenino</label><input type="radio" name='sexo' value='femenino' id='femenino'>
             </div>
             <div>
                 <input type="tel" name="telefono" id="telefono" autocomplete="off" required placeholder="Teléfono">
             </div>
             <div>
-                <input type="mail" name="mail" id="mail" autocomplete="off" placeholder="email">
+                <input type="mail" name="mail" id="mail" autocomplete="off" placeholder="email" required>
             </div>
             <div>
                 <label>Imagen de Perfil</label>
-                <input type="file" name="imagenPerfil" accept="image/*">
+                <input type="file" name="imagenPerfil" accept="image/*" required>
             </div>
-            <button type="button" class="btn btn-link"><a href="index.php">Volver</a></button>
-            <input type="submit" name="btn-accion" value="Guardar Cambios" class="btn btn-info">
+            <a href="<?php echo $helper->url("administrador","panelAdministrador"); ?>" class="btn btn-link">Volver</a>
+            <input type="submit" name="btn_accion" value="Guardar Cambios" class="btn btn-info">
+            <div>
+              <?php if(isset($mensaje)){
+                echo $mensaje;
+              } ?>
+            </div>
         </fieldset>
     </form>
 <footer>

@@ -113,7 +113,7 @@ class UsuarioSitio extends EntidadBase{
       $this->administrador=$administrador;
     }
     public function save(){
-      require_once "Administrador.php";
+    //  require_once "Administrador.php";
 
     //verifico si el usuario se encuentra en la BD
 		//sino es null entonces UPDATE
@@ -127,23 +127,6 @@ class UsuarioSitio extends EntidadBase{
 			return $save;
 
 		}else{
-      echo   $this->usuario
-             ."clave:".$this->password
-             ."mod:".$this->usuarioultmod
-             ."fechamod:".$this->fechaultmod
-             ."fechaalta:".$this->fechaalta
-             ."estado:".$this->estado
-             ."nombre:".$this->nombre
-             ."apellido:".$this->apellido
-             ."sexo:".$this->sexo
-             ."mail:".$this->mail
-             ."telefono:".$this->telefono
-             ."imagen:".$this->imagenperfil;
-            //$hoy=strftime( "%Y-%m-%d-%H-%M-%S", time() );
-            //$hoy="";
-            //$this->setFechaAlta($hoy);
-            //$this->setUsuarioUltMod(NULL);
-            //$this->setFechaUltMod(NULL);
             $query="INSERT INTO usuario_sitio (id, usuario, password, usuarioultmod, fechaultmod, fechaalta, estado, nombre, apellido, sexo, mail, telefono, imagenperfil)
                 VALUES(NULL,'".$this->usuario."',
                        '".$this->password."',
@@ -158,11 +141,11 @@ class UsuarioSitio extends EntidadBase{
                        '".$this->telefono."',
                        '".$this->imagenperfil."');";
             $save=$this->db()->query($query);
-            echo $save;
+
             //$this->db()->error;
             return $save;
         }
       }
-      
+
 }
 ?>

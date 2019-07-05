@@ -1,3 +1,5 @@
+<?php if(!isset($_SESSION)){
+        session_start(); } ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,18 +13,13 @@
   <link rel="icon" href="assets/img/icono.png" type="image/png" sizes="16x16">
 </head>
 <body>
-  <header class="cabecera">
-    <nav>
-      <ul>
-        <li>Apellido Nombre: <?php echo $administrador[0]->apellido." ".$administrador[0]->nombre; ?></li>
-        <li><b>Administrador</b></li>
-        <li class="menu_opcion opcion"><a href="index.php">Salir</a></li>
-      </ul>
-    </nav>
-  </header>
+<?php include("cabeceraView.php"); ?>
 <div class="container">
     <button type="button" class="btn btn-link"><a href="<?php echo $helper->url("administrador","registrarModerador"); ?>">Registrar Moderador</a></button>
-    <button type="button" class="btn btn-link"><a href="<?php echo $helper->url("administrador","registrarAdministrador"); ?>">Registrar Administrador</a></button>
+    <?php if($_SESSION['idSuperAdmin']==$_SESSION['id']){
+      echo "<button type=\"button\" class=\"btn btn-link\"><a href=\"{$helper->url('administrador','registrarAdministrador')}\">Registrar Administrador</a></button>";
+    }
+  ?>
     <p>Moderadores</p>
     <table border=1>
         <tr>

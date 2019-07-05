@@ -60,7 +60,7 @@ header nav li{
 	float: left;
 }
 header nav .menu_opcion{
-	margin-left: 500px;
+	margin-left: 50px;
 	padding-top: 20px;
 }
 header nav .opcion a, .opcion a{
@@ -68,6 +68,13 @@ header nav .opcion a, .opcion a{
 }
 header nav a:hover, .opcion a:hover{
 	color:#fff;
+}
+header nav .nombre{
+	margin-top: 10px;
+}
+header nav .rol{
+	margin-top: 10px;
+	font-weight: bold;
 }
 header nav .opcion{
 	background: #5f6061;
@@ -78,6 +85,7 @@ header nav .opcion{
 	font-weight: bold;
 	margin-top: 10px;
 }
+
 header ul{
 	height: 60px;
 }
@@ -94,7 +102,7 @@ header input{
 	background: transparent;
 	border:0;
 	padding-left: 15px;
-	min-width: 300px; 
+	min-width: 300px;
 }
 header button{
 	height: 30px;
@@ -102,7 +110,7 @@ header button{
 	border:0;
 }
 header form {
-	margin-top: 12px;	
+	margin-top: 12px;
 	border-radius: 100px;
 	background: white;
 	padding-right: 5px;
@@ -174,7 +182,7 @@ div.usuario_menu{
 .desplegable{
 	margin-top: 8px;
 	height: 350px;
-	
+
 }
 .foto{
 	padding: 10px;

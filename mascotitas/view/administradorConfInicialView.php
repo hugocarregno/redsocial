@@ -17,7 +17,7 @@
         <fieldset>
             <legend>Administrador</legend>
                 <div>
-                    <input type="text" name="usuario" id="username" maxlength="50" required autocomplete="off" placeholder="Usuario">
+                    <input type="text" name="usuario" id="usuario" maxlength="50" required autocomplete="off" placeholder="Usuario">
                 </div>
             <div>
                 <input type="password" name="password" id="password" maxlength="50" required autocomplete="off" placeholder="Contraseña">
@@ -42,8 +42,7 @@
                 <label>Imagen de Perfil</label>
                 <input type="file" name="imagenPerfil" accept="image/*">
             </div>
-            <button type="button" class="btn btn-link"><a href="index.php">Volver</a></button>
-            <input type="submit" name="btn-accion" value="Guardar Cambios" class="btn btn-info">
+            <input type="submit" name="btn_accion" value="Guardar Cambios" class="btn btn-info">
         </fieldset>
     </form>
 <footer>

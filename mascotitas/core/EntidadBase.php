@@ -25,7 +25,7 @@ class EntidadBase{
 
     public function getFirst(){
       $query=$this->db->query("SELECT * FROM $this->table ORDER BY id ASC LIMIT 1;");
-      $resultSet=array();
+      $resultSet=false;
       while ($row = $query->fetch_object()) {
          $resultSet[]=$row;
       }
@@ -35,7 +35,7 @@ class EntidadBase{
 
     public function getAll(){
         $query=$this->db->query("SELECT * FROM $this->table ORDER BY id DESC;");
-        $resultSet=array();
+        $resultSet=false;
         while ($row = $query->fetch_object()) {
            $resultSet[]=$row;
         }
@@ -45,7 +45,7 @@ class EntidadBase{
 
     public function getById($id){
         $query=$this->db->query("SELECT * FROM $this->table WHERE id=$id");
-
+        $resultSet=false;
         if($row = $query->fetch_object()) {
            $resultSet=$row;
         }
@@ -55,20 +55,17 @@ class EntidadBase{
     public function getByColumns($column1,$value1,$column2,$value2){
         $consulta="SELECT * FROM $this->table WHERE $column1 = '$value1' AND $column2 = '$value2' ;";
         $query=$this->db->query($consulta);
-
+        $resultSet=false;
         if($row = $query->fetch_object()) {
            $resultSet[]=$row;
-        }else{
-          $resultSet=array();
         }
-
 
         return $resultSet;
     }
 
     public function getBy($column,$value){
         $query=$this->db->query("SELECT * FROM $this->table WHERE $column='$value'");
-
+        $resultSet=false;
         while($row = $query->fetch_object()) {
            $resultSet[]=$row;
         }

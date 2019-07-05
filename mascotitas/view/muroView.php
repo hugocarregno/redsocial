@@ -1,8 +1,7 @@
-<?php  echo "hola".$_POST["usuario"]; ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Muro</title>
+    <title>Masctotitas - Muro</title>
     <link rel="stylesheet" type="text/css" href="assets/css/estilo.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,27 +11,7 @@
     <link rel="icon" href="assets/img/icono.png" type="image/png" sizes="16x16">
 </head>
 <body>
-    <header class="cabecera">
-    <nav>
-		<ul>
-			<li>
-				<a href="perfil.html"><span class="menu-foto"></span></a>
-			</li>
-			<li>
-				<form action="#">
-					<input type="text" placeholder="Buscar">
-					<button>
-						<img src="assets/img/lupa.png" height="16" alt="Buscar">
-					</button>
-				</form>
-			</li>
-			<li class="menu_opcion opcion"><a href="muro.html">Inicio</a></li>
-			<li class="opcion"><a href="amistad.html">Solicitud</a></li>
-            <li class="opcion"><a href="perfil.html">Perfil</a></li>
-            <li class="opcion"><a href="index.html">Salir</a></li>
-        </ul>
-    </nav>
-    </header>
+<?php include("cabeceraView.php"); ?>
         <div class="container">
         <article>
             <section class="publicar">
@@ -106,7 +85,6 @@
     </div>
 <footer>
 	+cotitas 2019
-  <?php print_r($administrador); ?>
 </footer>
 </body>
 </html>

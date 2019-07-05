@@ -121,13 +121,11 @@ class Moderador extends EntidadBase{
   }
 
   public function save(){
-    require_once "Administrador.php";
-
+    //require_once "Administrador.php";
   //verifico si el usuario se encuentra en la BD
   //sino es null entonces UPDATE
   //si es null entonces INSERT
   if($this->id){
-echo "entre en if";
     $query= "UPDATE moderador set usuario = '$this->usuario', password = '$this->password', usuarioultmod = '$this->usuarioultmod', fechaultmod = '$this->fechaultmod', usuarioalta = '$this->usuarioalta'
     , fechaalta = '$this->fechaalta', estado = '$this->estado', nombre = '$this->nombre', apellido = '$this->apellido' , sexo = '$this->sexo', mail = '$this->mail' ,telefono = '$this->telefono', imagenperfil = '$this->imagenperfil' where id = $this->id";
     $save=$this->db()->query($query);
@@ -140,7 +138,7 @@ echo "entre en if";
                      '".$this->password."',
                      NULL,
                      NULL,
-                     '".$this->administrador->getId()."',
+                     '".$this->usuarioalta."',
                      '".$this->fechaalta."',
                      '".$this->estado."',
                      '".$this->nombre."',
@@ -151,7 +149,7 @@ echo "entre en if";
                      '".$this->imagenperfil."');";
                      //$this->administrador->getId()
           $save=$this->db()->query($query);
-          echo $save;
+
           //$this->db()->error;
           return $save;
       }

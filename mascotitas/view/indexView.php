@@ -19,11 +19,10 @@
             <fieldset>
                 <legend>Autenticación</legend>
                 <div>
-
                     <input name="usuario" type="text" id="usuario" size="30" placeholder="Usuario" required/>
                 </div>
                 <div>
-                    <input name="psw" type="password" id="psw" size="30" placeholder="Contraseña" required/>
+                    <input name="password" type="password" id="password" size="30" placeholder="Contraseña" required/>
                 </div>
                 <div>
                     <input type="submit" name="btn-accion" value="iniciar" class="btn btn-info" placeholder="ini">
@@ -32,7 +31,7 @@
                   <?php echo $mensaje; ?>
                 </div>
                 <div>
-                    <button class="btn btn-link"><a href="<?php echo $helper->url("login","registrarUsuario"); ?>">Registrarse</a></button>
+                    <button class="btn btn-link"><a href="<?php echo $helper->url("Usuario","registrar"); ?>">Registrarse</a></button>
                 </div>
             </fieldset>
         </form>

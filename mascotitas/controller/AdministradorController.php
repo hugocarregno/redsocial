@@ -16,89 +16,98 @@ class AdministradorController extends ControladorBase{
     //Conseguimos todos los administradores
     $administrador=$administrador->getAll();
     //si no hay admin, se configura la cuenta admin
-    if(count($administrador)!=0){
-      $this->redirect("Usuario","index");
+    if($administrador){
+      $this->redirect("Login","index");
     }else{
       $this->view("administradorConfInicial","");
     }
   }
 
+
   public function crear(){
-    //mejorar condicion
-    if(isset($_POST["nombre"])){
+    $existeUsuario=new UsuarioSitio($this->adapter);
+    $existeModerador=new Moderador($this->adapter);
+    $existeAdmin=new Administrador($this->adapter);
+    if(!$existeUsuario->getBy("usuario",$_POST['usuario']) && !$existeModerador->getBy("usuario",$_POST['usuario']) && !$existeAdmin->getBy("usuario",$_POST['usuario'])){
+      if(isset($_POST["btn_accion"]) && isset($_POST['usuario']) && trim($_POST['usuario']," ") && isset($_POST['password']) && trim($_POST['password']," ") && isset($_POST['nombre']) && trim($_POST['nombre']," ") &&
+        isset($_POST['apellido']) && trim($_POST['apellido']," ") && isset($_POST['sexo']) && trim($_POST['sexo']," ") && isset($_POST['mail']) && trim($_POST['mail']," ") && isset($_POST['telefono']) &&
+        trim($_POST['telefono']," ") && !empty($_FILES['imagenPerfil']['name']) ){
 
-      //Creamos un administrador
-      $administrador=new Administrador($this->adapter);
-      $administrador=$administrador->getFirst();
-      $admin=new Administrador($this->adapter);
-      if(count($administrador)==1){
-        $admin->setUsuarioAlta($administrador[0]->id);
-      }else{
-          $admin->setUsuarioAlta(1);
-      }
+          //Creamos un administrador
+          $administrador=new Administrador($this->adapter);
+          $admin=new Administrador($this->adapter);
+          if($administrador=$administrador->getFirst()){
+            $admin->setUsuarioAlta($administrador[0]->id);
+          }else{
+              $admin->setUsuarioAlta(1);
+          }
 
-      $admin->setUsuario($_POST["usuario"]);
-      $admin->setPassword(openssl_encrypt($_POST["password"], COD, KEY));
+          $admin->setUsuario($_POST["usuario"]);
+          $admin->setPassword(openssl_encrypt($_POST["password"], COD, KEY));
 
+          date_default_timezone_set("UTC");
+          $hoy=strftime( "%Y-%m-%d", time() );
+          $admin->setFechaAlta($hoy);
+          //$usuario->setFechaUltMod(NULL);
+          $admin->setNombre($_POST["nombre"]);
+          $admin->setApellido($_POST["apellido"]);
+          if($_POST["sexo"]=="masculino"){
+              $admin->setSexo(1);
+          }else{
+              $admin->setSexo(0);
+          }
+          $admin->setMail($_POST["mail"]);
+          $admin->setTelefono($_POST["telefono"]);
+          $admin->setEstado(1);
+          $fileName=$_FILES['imagenPerfil']['name'];
+          $tmpName=$_FILES['imagenPerfil']['tmp_name'];
 
+          $fileSize=$_FILES['imagenPerfil']['size'];
+          $fileType=$_FILES['imagenPerfil']['type'];
+          if($tmpName==""){
+            echo "la carpeta temporal esta vacia";
+          }else{
+            //echo $tmpName;
+          }
+          //si es menor de 3 mega subirlo
 
-      date_default_timezone_set("UTC");
-      $hoy=strftime( "%Y-%m-%d", time() );
-      $admin->setFechaAlta($hoy);
-      //$usuario->setFechaUltMod(NULL);
-      $admin->setNombre($_POST["nombre"]);
-      $admin->setApellido($_POST["apellido"]);
-      if($_POST["sexo"]=="masculino"){
-          $admin->setSexo(1);
-      }else{
-          $admin->setSexo(0);
-      }
-      $admin->setMail($_POST["mail"]);
-      $admin->setTelefono($_POST["telefono"]);
-      $admin->setEstado(1);
-      $fileName=$_FILES['imagenPerfil']['name'];
-      $tmpName=$_FILES['imagenPerfil']['tmp_name'];
+          if($fileSize<3000000){
+            if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){
 
-      $fileSize=$_FILES['imagenPerfil']['size'];
-      $fileType=$_FILES['imagenPerfil']['type'];
-      if($tmpName==""){
-        echo "esta vacio";
-      }else{
-        echo $tmpName;
-      }
-      //si es menor de 1 mega subirlo
+               $imagenes=$_SERVER['DOCUMENT_ROOT'].DIRECTORIO."administrador/";
 
-      if($fileSize<3000000){
-        if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){
-           echo "<br>";
-           echo $fileName;
-           echo "<br>";
-           echo $tmpName;
-           $imagenes=$_SERVER['DOCUMENT_ROOT']."/clonaciones/mascotitas/assets/img/administrador/";
-           echo "<br>";
-           echo $imagenes;
-           $extension=explode("/",$fileType);
-           $fileName=$admin->getUsuario().'.'.$extension[1];
-           $filePath=$imagenes.$fileName;
-           echo "<br>";
-           echo $filePath;
-           echo "<br>";
-           if($result=move_uploaded_file($tmpName, $filePath)){
-              $admin->setImagenPerfil($fileName);
-           }else{
-              echo "no se subio";
-              exit;
-           }
-           }else{
-              echo "debe subir imagen con extension .jpg .jpeg .gif o .png";
-           }
+               $extension=explode("/",$fileType);
+               $fileName=$admin->getUsuario().'.'.$extension[1];
+               $filePath=$imagenes.$fileName;
+
+               if($result=move_uploaded_file($tmpName, $filePath)){
+                  $admin->setImagenPerfil($fileName);
+               }else{
+                  echo "no se subio";
+                  exit;
+               }
+               }else{
+                  echo "debe subir imagen con extension .jpg .jpeg .gif o .png";
+               }
+            }else{
+              echo "la imagen supera 3 MB";
+            }
+          $save=$admin->save();
+          if($_GET['action']=="crear" && $administrador){
+            $this->view("panelAdministrador", array("administrador" => $administrador ));
+          }else{
+          // ver si esta de mas este else
+            $this->redirect("Administrador", "index");
+          }
         }else{
-          echo "la imagen supera 1 MB";
+          $mensaje='<span>Todos los campos son obligatorios</span>';
+        $this->view("registrarAdministrador",array("mensaje"=>$mensaje));
         }
-      $save=$admin->save();
+    }else{
+      echo "<script>alert('El usuario ya existe'); </script>";
+      $mensaje='<span>Ingrese un usuario diferente</span>';
+      $this->view("registrarAdministrador",array("mensaje"=>$mensaje));
     }
-    $this->redirect("Administrador", "index");
-
   }
 
   public function panelAdministrador(){
@@ -112,16 +121,100 @@ class AdministradorController extends ControladorBase{
   //$administrador->setId(1);
   if($administrador){
     $this->view("panelAdministrador",array("administrador"=>$administrador));
-  }else{
+  }
+  else{
     echo "no";
   }
 
   }
 
   public function registrarAdministrador(){
+    //session_start();
+     //$_SESSION['id'];
+    //$this->view("registrarAdministrador",array("session"=>$_SESSION));
+    $this->view("registrarAdministrador","");
+  }
+
+  public function registrarModerador(){
+    //session_start();
+     //$_SESSION['id'];
+    //$this->view("registrarAdministrador",array("session"=>$_SESSION));
+    $this->view("registrarModerador","");
+  }
+
+  public function crearModerador(){
     session_start();
-    echo $_SESSION['id'];
-    
+    $existeUsuario=new UsuarioSitio($this->adapter);
+    $existeModerador=new Moderador($this->adapter);
+    $existeAdmin=new Administrador($this->adapter);
+    if(!$existeUsuario->getBy("usuario",$_POST['usuario']) && !$existeModerador->getBy("usuario",$_POST['usuario']) && !$existeAdmin->getBy("usuario",$_POST['usuario'])){
+      var_dump($_POST);
+      if(isset($_POST["btn_accion"]) && isset($_POST['usuario']) && trim($_POST['usuario']," ") && isset($_POST['password']) && trim($_POST['password']," ") && isset($_POST['nombre']) && trim($_POST['nombre']," ") &&
+        isset($_POST['apellido']) && trim($_POST['apellido']," ") && isset($_POST['sexo']) && trim($_POST['sexo']," ") && isset($_POST['mail']) && trim($_POST['mail']," ") && isset($_POST['telefono']) &&
+        trim($_POST['telefono']," ") && !empty($_FILES['imagenPerfil']['name']) ){
+        //Creamos un administrador
+        $moderador=new Moderador($this->adapter);
+        $moderador->setUsuarioAlta($_SESSION['id']);
+
+
+        $moderador->setUsuario($_POST["usuario"]);
+        $moderador->setPassword(openssl_encrypt($_POST["password"], COD, KEY));
+
+
+
+        date_default_timezone_set("UTC");
+        $hoy=strftime( "%Y-%m-%d", time() );
+        $moderador->setFechaAlta($hoy);
+        //$usuario->setFechaUltMod(NULL);
+        $moderador->setNombre($_POST["nombre"]);
+        $moderador->setApellido($_POST["apellido"]);
+        if($_POST["sexo"]=="masculino"){
+            $moderador->setSexo(1);
+        }else{
+            $moderador->setSexo(0);
+        }
+        $moderador->setMail($_POST["mail"]);
+        $moderador->setTelefono($_POST["telefono"]);
+        $moderador->setEstado(1);
+        $fileName=$_FILES['imagenPerfil']['name'];
+        $tmpName=$_FILES['imagenPerfil']['tmp_name'];
+
+        $fileSize=$_FILES['imagenPerfil']['size'];
+        $fileType=$_FILES['imagenPerfil']['type'];
+        if($tmpName==""){
+          echo "la carpeta temporal esta vacia";
+        }else{
+          //echo $tmpName;
+        }
+        //si es menor de 3 mega subirlo
+
+        if($fileSize<3000000){
+          if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){
+             $imagenes=$_SERVER['DOCUMENT_ROOT'].DIRECTORIO."moderador/";
+             $extension=explode("/",$fileType);
+             $fileName=$moderador->getUsuario().'.'.$extension[1];
+             $filePath=$imagenes.$fileName;
+             if($result=move_uploaded_file($tmpName, $filePath)){
+                $moderador->setImagenPerfil($fileName);
+             }else{
+                echo "no se subio";
+                exit;
+             }
+             }else{
+                echo "debe subir imagen con extension .jpg .jpeg .gif o .png";
+             }
+          }else{
+            echo "la imagen supera 3 MB";
+          }
+        $save=$moderador->save();
+      }
+        $this->view("panelAdministrador", "");
+    }else{
+      echo "<script>alert('El usuario ya existe'); </script>";
+      $mensaje='<span>Ingrese un usuario diferente</span>';
+      $this->view("registrarModerador",array("mensaje"=>$mensaje));
+    }
+
   }
 
 }
