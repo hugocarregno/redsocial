@@ -18,8 +18,8 @@
           </button>
         </form>
       </li>
-      <li class="menu_opcion opcion"><a href="muro.html">Inicio</a></li>
-      <li class="opcion"><a href="amistad.html">Solicitud</a></li>
+      <li class="menu_opcion opcion"><a href="<?php echo $helper->url("usuario","muro"); ?>">Inicio</a></li>
+      <li class="opcion"><a href="<?php echo $helper->url("usuario","amigos"); ?>">Solicitud</a></li>
       <li class="opcion"><a href="<?php echo $helper->url("usuario","perfil"); ?>">Perfil</a></li>
       <li class="opcion"><a href="<?php echo $helper->url("login","cerrarSesion"); ?>">Salir</a></li>
     </ul>

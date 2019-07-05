@@ -15,6 +15,7 @@
         <div class="container">
         <article>
             <section class="publicar">
+                <div><input type="text" name="titulo" style="margin-right: 500px; width: 100%; border-radius: 8px 8px 0 0;" placeholder="Título"></div>
                 <textarea placeholder="Cuentanos algo"></textarea>
                 <div class="boton-publicar">
                     <button class="imagen">Imagen(max 3)</button>
@@ -23,6 +24,7 @@
                 </div>
             </section>
             <section>
+
                 <div class="perfil">
                     <div class="foto">
                         <img src="assets/img/usuario_sitio/1.jpg" alt="persona1" width="50px" height="50px"/>

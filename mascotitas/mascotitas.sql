@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-06-2019 a las 16:44:30
+-- Tiempo de generación: 05-07-2019 a las 22:39:42
 -- Versión del servidor: 10.1.39-MariaDB
 -- Versión de PHP: 7.3.5
 
@@ -41,10 +41,12 @@ CREATE TABLE `adjunto` (
 --
 
 CREATE TABLE `administrador` (
-  `id_usuario` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `usuario` varchar(50) NOT NULL,
   `password` varchar(64) NOT NULL,
-  `fechaultmod` date NOT NULL,
+  `usuarioultmod` int(11) DEFAULT NULL,
+  `fechaultmod` date DEFAULT NULL,
+  `usuarioalta` int(11) NOT NULL,
   `fechaalta` date NOT NULL,
   `estado` tinyint(1) NOT NULL,
   `nombre` varchar(50) NOT NULL,
@@ -55,12 +57,18 @@ CREATE TABLE `administrador` (
   `imagenperfil` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `administrador`
+-- Estructura de tabla para la tabla `amistad`
 --
 
-INSERT INTO `administrador` (`id_usuario`, `usuario`, `password`, `fechaultmod`, `fechaalta`, `estado`, `nombre`, `apellido`, `sexo`, `mail`, `telefono`, `imagenperfil`) VALUES
-(1, 'admin', 'admin', '2019-06-10', '2019-06-10', 1, 'jhon', 'mascotas', 1, 'jhon@gmail.com', '2657113322', 'administrador/admin2019-06-10.jpg');
+CREATE TABLE `amistad` (
+  `usuarioEmisor` int(11) NOT NULL,
+  `usuarioReceptor` int(11) NOT NULL,
+  `estado` varchar(15) NOT NULL,
+  `fecha` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -126,11 +134,11 @@ CREATE TABLE `imagen` (
 --
 
 CREATE TABLE `moderador` (
-  `id_usuario` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `usuario` varchar(50) NOT NULL,
   `password` varchar(64) NOT NULL,
-  `usuarioultmod` varchar(50) NOT NULL,
-  `fechaultmod` date NOT NULL,
+  `usuarioultmod` varchar(50) DEFAULT NULL,
+  `fechaultmod` date DEFAULT NULL,
   `usuarioalta` int(11) NOT NULL,
   `fechaalta` date NOT NULL,
   `estado` tinyint(1) NOT NULL,
@@ -141,13 +149,6 @@ CREATE TABLE `moderador` (
   `telefono` varchar(50) NOT NULL,
   `imagenperfil` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `moderador`
---
-
-INSERT INTO `moderador` (`id_usuario`, `usuario`, `password`, `usuarioultmod`, `fechaultmod`, `usuarioalta`, `fechaalta`, `estado`, `nombre`, `apellido`, `sexo`, `mail`, `telefono`, `imagenperfil`) VALUES
-(1, 'mod1', 'mod1', '1', '2019-06-10', 1, '2019-06-10', 1, 'rosa', '', 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -186,8 +187,8 @@ CREATE TABLE `usuario_sitio` (
   `id` int(11) NOT NULL,
   `usuario` varchar(50) NOT NULL,
   `password` varchar(64) NOT NULL,
-  `usuarioultmod` varchar(50) NOT NULL,
-  `fechaultmod` date NOT NULL,
+  `usuarioultmod` int(11) DEFAULT NULL,
+  `fechaultmod` date DEFAULT NULL,
   `fechaalta` date NOT NULL,
   `estado` tinyint(1) NOT NULL,
   `nombre` varchar(50) NOT NULL,
@@ -197,13 +198,6 @@ CREATE TABLE `usuario_sitio` (
   `telefono` varchar(50) NOT NULL,
   `imagenperfil` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `usuario_sitio`
---
-
-INSERT INTO `usuario_sitio` (`id`, `usuario`, `password`, `usuarioultmod`, `fechaultmod`, `fechaalta`, `estado`, `nombre`, `apellido`, `sexo`, `mail`, `telefono`, `imagenperfil`) VALUES
-(1, 'ro', 'qq', 'ro', '2019-06-10', '2019-06-10', 1, 'roberto', 'cp', 1, 'ro@gmail.com', '11223344', 'usuario_sitio/1.jpg');
 
 --
 -- Índices para tablas volcadas
@@ -220,7 +214,14 @@ ALTER TABLE `adjunto`
 -- Indices de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  ADD PRIMARY KEY (`id_usuario`);
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `amistad`
+--
+ALTER TABLE `amistad`
+  ADD KEY `usuariositio-emisor` (`usuarioEmisor`),
+  ADD KEY `usuariositio-receptor` (`usuarioReceptor`);
 
 --
 -- Indices de la tabla `comentario`
@@ -257,7 +258,7 @@ ALTER TABLE `imagen`
 -- Indices de la tabla `moderador`
 --
 ALTER TABLE `moderador`
-  ADD PRIMARY KEY (`id_usuario`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `moderador-administrador` (`usuarioalta`);
 
 --
@@ -278,7 +279,8 @@ ALTER TABLE `post`
 -- Indices de la tabla `usuario_sitio`
 --
 ALTER TABLE `usuario_sitio`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuariositio-administrador` (`usuarioultmod`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -294,7 +296,7 @@ ALTER TABLE `adjunto`
 -- AUTO_INCREMENT de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `comentario`
@@ -312,7 +314,7 @@ ALTER TABLE `imagen`
 -- AUTO_INCREMENT de la tabla `moderador`
 --
 ALTER TABLE `moderador`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `palabraclave`
@@ -330,7 +332,7 @@ ALTER TABLE `post`
 -- AUTO_INCREMENT de la tabla `usuario_sitio`
 --
 ALTER TABLE `usuario_sitio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -341,6 +343,13 @@ ALTER TABLE `usuario_sitio`
 --
 ALTER TABLE `adjunto`
   ADD CONSTRAINT `post-adjunto` FOREIGN KEY (`id_post`) REFERENCES `post` (`id_post`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `amistad`
+--
+ALTER TABLE `amistad`
+  ADD CONSTRAINT `usuariositio-emisor` FOREIGN KEY (`usuarioEmisor`) REFERENCES `usuario_sitio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `usuariositio-receptor` FOREIGN KEY (`usuarioReceptor`) REFERENCES `usuario_sitio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `comentario`
@@ -354,14 +363,14 @@ ALTER TABLE `comentario`
 --
 ALTER TABLE `denunciacomentario`
   ADD CONSTRAINT `comentario` FOREIGN KEY (`id_comentario`) REFERENCES `comentario` (`id_comentario`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `moderador` FOREIGN KEY (`id_moderador`) REFERENCES `moderador` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `moderador` FOREIGN KEY (`id_moderador`) REFERENCES `moderador` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario_sitio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `denunciapost`
 --
 ALTER TABLE `denunciapost`
-  ADD CONSTRAINT `moderador-denunciapost` FOREIGN KEY (`id_moderador`) REFERENCES `moderador` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `moderador-denunciapost` FOREIGN KEY (`id_moderador`) REFERENCES `moderador` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `post-denunciapost` FOREIGN KEY (`id_post`) REFERENCES `post` (`id_post`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `usuariositio` FOREIGN KEY (`id_usuario`) REFERENCES `usuario_sitio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -375,7 +384,7 @@ ALTER TABLE `imagen`
 -- Filtros para la tabla `moderador`
 --
 ALTER TABLE `moderador`
-  ADD CONSTRAINT `moderador-administrador` FOREIGN KEY (`usuarioalta`) REFERENCES `administrador` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `moderador-administrador` FOREIGN KEY (`usuarioalta`) REFERENCES `administrador` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `palabraclave`
@@ -388,6 +397,12 @@ ALTER TABLE `palabraclave`
 --
 ALTER TABLE `post`
   ADD CONSTRAINT `usuariositio-post` FOREIGN KEY (`id_usuario`) REFERENCES `usuario_sitio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `usuario_sitio`
+--
+ALTER TABLE `usuario_sitio`
+  ADD CONSTRAINT `usuariositio-administrador` FOREIGN KEY (`usuarioultmod`) REFERENCES `administrador` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

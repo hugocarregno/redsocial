@@ -153,6 +153,16 @@ class UsuarioController extends ControladorBase{
       $this->view("perfil","");
     }
 
+    public function amigos(){
+      session_start();
+      $this->view("amistad","");
+    }
+
+    public function muro(){
+      session_start();
+      $this->view("muro","");
+    }
+
 
 }
 ?>
