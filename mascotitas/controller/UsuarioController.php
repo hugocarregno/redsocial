@@ -61,7 +61,7 @@ class UsuarioController extends ControladorBase{
         	   echo $fileName;
         	   echo "<br>";
         	   echo $tmpName;
-        	   $imagenes=$_SERVER['DOCUMENT_ROOT'].DIRECTORIO."usuario_sitio/";
+        	   $imagenes=$_SERVER['DOCUMENT_ROOT'].DIRECTORIO."usuariositio/";
         	   echo "<br>";
         	   echo $imagenes;
         	   $extension=explode("/",$fileType);
@@ -159,7 +159,7 @@ class UsuarioController extends ControladorBase{
   //    $this->view("muro","");
 //    }
 
-  
+
 
     public function buscarUsuario(){
       session_start();
@@ -169,7 +169,7 @@ class UsuarioController extends ControladorBase{
           $usuario=$usuario->getBy("usuario",$_POST['busqueda']);
           if($usuario){
             $amistad = new Amistad($this->adapter);
-            $amistad = $amistad->getByColumns("usuarioEmisor", $_SESSION['id'], "usuarioReceptor", $usuario[0]->id);
+            $amistad = $amistad->getAmistad("usuarioEmisor", $_SESSION['id'], "usuarioReceptor", $usuario[0]->id);
             if($amistad){
               $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
             }else{
@@ -189,26 +189,7 @@ class UsuarioController extends ControladorBase{
 
     }
 
-    public function solicitarAmistad(){
-      session_start();
-      $amistad= new Amistad($this->adapter);
-      $usuario= new UsuarioSitio($this->adapter);
-      $usuario=$usuario->getBy("id",$_POST['id']);
-      if($usuario){
-        $amistad->setUsuarioEmisor($_SESSION['id']);
-        $amistad->setUsuarioReceptor($usuario[0]->id);
-        date_default_timezone_set("America/Argentina/San_Luis");
-        $hoy = date("Y-m-d H:i:s", time());
-        $amistad->setFecha($hoy);
-        $save = $amistad->save();
-        $amistad=array($amistad);
-        //echo "<script>alert('Solicitud enviada correctamente');</script>";
-        $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
-        //$this->redirect("usuario","perfil");
-      }else{
-            echo "No se encontro el usuario";
-      }
-    }
+
 
 }
 ?>

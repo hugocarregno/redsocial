@@ -14,7 +14,7 @@
 <?php include("cabeceraView.php"); ?>
     <div class="container">
         <article>
-                Publicaciones(2)
+            <!--    Publicaciones(count puclicaciones)
                     <section>
                             <div class="perfil">
                                 <div class="foto">
@@ -93,7 +93,7 @@
                                 <button type="button" class="btn btn-success">Aceptar</button>
                                 <button type="button" class="btn btn-danger">Ignorar</button>
                         </div>
-            </section>
+            </section> -->
         </article>
     </div>
 <footer>

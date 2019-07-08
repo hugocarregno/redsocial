@@ -30,13 +30,18 @@
             $clase="btn btn-danger";
             $texto="Cancelar Amistad";
           }
-          if($amistad[0]->estado=="cancelado"){
-            echo $helper->url('usuario','solicitarAmistad');
+          if($amistad[0]->estado=="cancelado" || $amistad[0]->estado=="rechazado"){
+            echo $helper->url('amistad','solicitarAmistad');
+            $clase="btn btn-info";
+            $texto="Solicitar Amistad";
+          }
+          if($amistad[0]->estado=="eliminadoE" || $amistad[0]->estado=="eliminadoR"){
+            echo $helper->url('amistad','solicitarAmistad');
             $clase="btn btn-info";
             $texto="Solicitar Amistad";
           }
             }else{
-            if(isset($usuario)){echo $helper->url('usuario','solicitarAmistad');
+            if(isset($usuario)){echo $helper->url('amistad','solicitarAmistad');
             $clase="btn btn-info";
             $texto="Solicitar Amistad";}
 
@@ -85,7 +90,7 @@
             Teléfono: <?php if(isset($usuario)){ echo $usuario[0]->telefono; }else{ echo $_SESSION['telefono'];} ?>
         </section>
         <section>
-            Se unio : <?php if(isset($usuario)){ echo $usuario[0]->fechaalta; }else{ echo $_SESSION['fechaalta']; } ?>
+            Se unio : <?php if(isset($usuario)){ echo $usuario[0]->fechaAlta; }else{ echo $_SESSION['fechaAlta']; } ?>
         </section>
     </div>
 </div>

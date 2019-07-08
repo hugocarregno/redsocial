@@ -63,8 +63,19 @@ class EntidadBase{
         return $resultSet;
     }
 
+    public function getAmistad($column1,$value1,$column2,$value2){
+      $consulta="SELECT * FROM amistad WHERE ('$column1' = '$value1' OR '$column1' = '$value2') AND ('$column2' = '$value2' OR '$column2' = '$value1') AND (estado='cancelado' OR estado='rechazado' OR estado='eliminadoE' OR estado='eliminadoR');";
+      $query=$this->db->query($consulta);
+      $resultSet=false;
+      if($row = $query->fetch_object()) {
+         $resultSet[]=$row;
+      }
+
+      return $resultSet;
+    }
+
     public function getSolicitudes($value){
-      $consulta="SELECT * FROM usuario_sitio WHERE id IN (SELECT usuarioEmisor FROM $this->table WHERE usuarioReceptor= '$value' );";
+      $consulta="SELECT * FROM usuariositio WHERE id IN (SELECT usuarioEmisor FROM $this->table WHERE usuarioReceptor= '$value' );";
       $query=$this->db->query($consulta);
       $resultSet=false;
       while($row = $query->fetch_object()) {
@@ -75,7 +86,7 @@ class EntidadBase{
     }
 
     public function getPublicaciones($value){
-      $consulta="SELECT * FROM post p JOIN usuario_sitio u ON u.id=p.idUsuario WHERE idUsuario IN (SELECT usuarioEmisor FROM amistad WHERE usuarioReceptor= '$value' );";
+      $consulta="SELECT * FROM post p JOIN usuariositio u ON u.id=p.idUsuario WHERE idUsuario IN (SELECT usuarioEmisor FROM amistad WHERE (usuarioReceptor= '$value' AND estado='aceptado')) OR (SELECT usuarioReceptor FROM amistad WHERE (usuarioEmisor= '$value' AND estado='aceptado'));";
       $query=$this->db->query($consulta);
       $resultSet=false;
       while($row = $query->fetch_object()) {

@@ -14,7 +14,7 @@
   <?php include("cabeceraView.php"); ?>
               <div class="container">
                 <p>Solicitudes</p>
-                    <article>
+                    <article><form>
                       <?php if(isset($amistad)){
                         foreach ($amistad as $solicitud) { ?>
                           <section><img src="<?php echo $solicitud->imagenPerfil; ?>" alt="<?php echo $solicitud->nombre; ?>" width="50px" height="50px">";

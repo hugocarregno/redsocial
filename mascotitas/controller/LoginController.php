@@ -40,7 +40,7 @@
               $_SESSION['nombre'] = $usuario[0]->nombre;
               $_SESSION['apellido'] = $usuario[0]->apellido;
               $_SESSION['tipo'] = "Usuario";
-              $_SESSION['fechaalta'] = $usuario[0]->fechaalta;
+              $_SESSION['fechaAlta'] = $usuario[0]->fechaAlta;
               $_SESSION['sexo'] = $usuario[0]->sexo;
               $_SESSION['mail'] = $usuario[0]->mail;
               $_SESSION['telefono'] = $usuario[0]->telefono;
@@ -60,7 +60,7 @@
             $_SESSION['nombre'] = $moderador[0]->nombre;
             $_SESSION['apellido'] = $moderador[0]->apellido;
             $_SESSION['tipo'] = "Moderador";
-            $_SESSION['fechaalta'] = $moderador[0]->fechaalta;
+            $_SESSION['fechaAlta'] = $moderador[0]->fechaAlta;
             $_SESSION['sexo'] = $moderador[0]->sexo;
             $_SESSION['mail'] = $moderador[0]->mail;
             $_SESSION['telefono'] = $moderador[0]->telefono;
@@ -79,7 +79,7 @@
             $_SESSION['nombre'] = $administrador[0]->nombre;
             $_SESSION['apellido'] = $administrador[0]->apellido;
             $_SESSION['tipo'] = "Administrador";
-            $_SESSION['fechaalta'] = $administrador[0]->fechaalta;
+            $_SESSION['fechaAlta'] = $administrador[0]->fechaAlta;
             $_SESSION['sexo'] = $administrador[0]->sexo;
             $_SESSION['mail'] = $administrador[0]->mail;
             $_SESSION['telefono'] = $administrador[0]->telefono;

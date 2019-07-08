@@ -8,7 +8,7 @@ class AmistadController extends ControladorBase{
       $this->conectar=new Conectar();
       $this->adapter =$this->conectar->conexion();
     }
-    
+
     public function solicitudes(){
       session_start();
       $amistad=new Amistad($this->adapter);
@@ -22,12 +22,34 @@ class AmistadController extends ControladorBase{
 
     }
 
+    public function solicitarAmistad(){
+      session_start();
+      $amistad= new Amistad($this->adapter);
+      $usuario= new UsuarioSitio($this->adapter);
+      $usuario=$usuario->getBy("id",$_POST['id']);
+      if($usuario){
+        $amistad->setUsuarioEmisor($_SESSION['id']);
+        $amistad->setUsuarioReceptor($usuario[0]->id);
+        date_default_timezone_set("America/Argentina/San_Luis");
+        $hoy = date("Y-m-d H:i:s", time());
+        $amistad->setFecha($hoy);
+        $amistad->setEstado("pendiente");
+        $save = $amistad->save();
+        //$amistad=array($amistad);
+        $amistad = $amistad->getByColumns("usuarioEmisor", $_SESSION['id'], "usuarioReceptor", $usuario[0]->id);
+        //echo "<script>alert('Solicitud enviada correctamente');</script>";
+        $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
+        //$this->redirect("usuario","perfil");
+      }else{
+            echo "No se encontro el usuario";
+      }
+    }
 
     public function cancelarAmistad(){
       session_start();
       $amistad= new Amistad($this->adapter);
       $usuario= new UsuarioSitio($this->adapter);
-      $usuario->getByColumns("usuarioEmisor",$_SESSION['id'],"usuarioReceptor",$_POST['id']);
+      $amistad->getByColumns("usuarioEmisor",$_SESSION['id'],"usuarioReceptor",$_POST['id']);
 
     }
 

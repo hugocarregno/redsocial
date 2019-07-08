@@ -1,6 +1,7 @@
 <?php
 class Amistad extends EntidadBase{
 
+  private $id;
   private $usuarioEmisor;
   private $usuarioReceptor;
   private $estado;
@@ -11,6 +12,12 @@ class Amistad extends EntidadBase{
       parent::__construct($table,$adapter);
   }
 
+  public function getId(){
+    return $this->id;
+  }
+  public function setId($id){
+    $this->id=$id;
+  }
   public function getUsuarioEmisor(){
       return $this->usuarioEmisor;
   }
@@ -40,17 +47,17 @@ class Amistad extends EntidadBase{
   //verifico si el usuario se encuentra en la BD
   //sino es null entonces UPDATE
   //si es null entonces INSERT
-  if($this->estado){
-    $query= "UPDATE amistad set usuarioReceptor = '$this->usuarioReceptor', fecha = '$this->fecha', estado = '$this->estado' where usuarioEmisor = $this->usuarioEmisor";
+  if($this->id){
+    $query= "UPDATE amistad set usuarioEmisor = '$this->usuarioEmisor', usuarioReceptor = '$this->usuarioReceptor', fecha = '$this->fecha', estado = '$this->estado' where id = $this->id ";
 
     $save=$this->db()->query($query);
     //$this->db()->error;
     return $save;
 
   }else{
-    $this->setEstado("pendiente");
-          $query="INSERT INTO amistad (usuarioEmisor, usuarioReceptor, estado, fecha)
-              VALUES('".$this->usuarioEmisor."',
+
+          $query="INSERT INTO amistad (id, usuarioEmisor, usuarioReceptor, estado, fecha)
+              VALUES(NULL, '".$this->usuarioEmisor."',
                      '".$this->usuarioReceptor."',
                      '".$this->estado."',
                    '".$this->fecha."');";

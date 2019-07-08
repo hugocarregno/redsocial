@@ -96,7 +96,7 @@ public function crearPublicacion(){
         //pregtuntar si hay fotos y mandarlo
         $save=$publicacion->save();
 
-        $this->redirect("usuario","muro");
+        $this->redirect("post","muro");
         //se actualice el muro en usuario muro o aca ver cuale s mejor
 
       }else{

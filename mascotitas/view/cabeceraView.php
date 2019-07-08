@@ -6,7 +6,7 @@
   <nav>
     <ul>
       <li>
-        <a href="<?php echo $helper->url("usuario","perfil"); ?>"><span class="menu-foto"></span></a>
+        <a href="<?php echo $helper->url("usuario","perfil"); ?>"><span><img class="menu-foto" src="<?php echo DIRECTORIO.$_SESSION['tipo']."/".$_SESSION['imagenPerfil']; ?>"/></span></a>
       </li>
       <li class="nombre"><?php echo $_SESSION['apellido']." ".$_SESSION['nombre']; ?></li>
       <li class="rol"><?php echo $_SESSION['tipo']; ?></li>
