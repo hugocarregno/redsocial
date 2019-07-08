@@ -75,7 +75,7 @@ class EntidadBase{
     }
 
     public function getSolicitudes($value){
-      $consulta="SELECT * FROM usuariositio WHERE id IN (SELECT usuarioEmisor FROM $this->table WHERE usuarioReceptor= '$value' );";
+      $consulta="SELECT * FROM usuariositio WHERE id IN (SELECT usuarioEmisor FROM $this->table WHERE usuarioReceptor= '$value' AND estado ='pendiente' );";
       $query=$this->db->query($consulta);
       $resultSet=false;
       while($row = $query->fetch_object()) {

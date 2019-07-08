@@ -30,7 +30,7 @@ class AmistadController extends ControladorBase{
       if($usuario){
         $amistad->setUsuarioEmisor($_SESSION['id']);
         $amistad->setUsuarioReceptor($usuario[0]->id);
-        date_default_timezone_set("America/Argentina/San_Luis");
+        //date_default_timezone_set("America/Argentina/San_Luis");
         $hoy = date("Y-m-d H:i:s", time());
         $amistad->setFecha($hoy);
         $amistad->setEstado("pendiente");
@@ -51,6 +51,34 @@ class AmistadController extends ControladorBase{
       $usuario= new UsuarioSitio($this->adapter);
       $amistad->getByColumns("usuarioEmisor",$_SESSION['id'],"usuarioReceptor",$_POST['id']);
 
+    }
+
+    public function aceptarAmistad(){
+      session_start();
+      $amista= new Amistad($this->adapter);
+      $amistad= new Amistad($this->adapter);
+      $amista=$amista->getByColumns("usuarioEmisor", $_POST['id'], "usuarioReceptor", $_SESSION['id']);
+      if($amista){
+          $amistad->setId($amista[0]->id);
+          $amistad->setUsuarioEmisor($amista[0]->usuarioEmisor);
+          $amistad->setUsuarioReceptor($amista[0]->usuarioReceptor);
+          $amistad->setEstado("aceptado");
+          $hoy = date("Y-m-d H:i:s", time());
+          $amistad->setFecha($hoy);
+          echo "<script>alert('estoy aca');</script>";
+          $save=$amistad->save();
+          $amistad=$amistad->getSolicitudes($_SESSION['id']);
+          if($amistad){
+            $this->view("amistad",array("amistad"=>$amistad));
+          }else{
+            echo "<script>alert('No tienes solicitudes en este momento');</script>";
+            $this->view("amistad","");
+          }
+
+      }else{
+        echo "<script>alert('No tienes solicitudes en este momento');</script>";
+        $this->view("amistad","");
+      }
     }
 
 }

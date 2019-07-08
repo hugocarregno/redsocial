@@ -14,11 +14,13 @@
   <?php include("cabeceraView.php"); ?>
               <div class="container">
                 <p>Solicitudes</p>
-                    <article><form>
+                    <article>
                       <?php if(isset($amistad)){
                         foreach ($amistad as $solicitud) { ?>
-                          <section><img src="<?php echo $solicitud->imagenPerfil; ?>" alt="<?php echo $solicitud->nombre; ?>" width="50px" height="50px">";
-                          <a href="<?php echo $helper->url("usuario","perfil"); ?>"><?php echo $solicitud->nombre." ".$solicitud->apellido; ?></a><button class="btn btn-success">Aceptar</button><button type="button" class="btn btn-danger">Rechazar</button>
+                          <section><img src="<?php echo DIRECTORIO.$_SESSION['tipo']."/".$solicitud->imagenPerfil; ?>" alt="<?php echo $solicitud->nombre; ?>" width="50px" height="50px">
+                          <a href="<?php echo $helper->url("usuario","perfil"); ?>"><?php echo $solicitud->nombre." ".$solicitud->apellido; ?></a>
+                          <?php echo "<form style=\"display:inline;\" action=\"{$helper->url('amistad','aceptarAmistad')}\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"$solicitud->id\"><button class=\"btn btn-success\" type=\"submit\" name=\"btnAccion\" value=\"aceptar\">Aceptar</button></form>
+                          <form style=\"display:inline;\" action=\"{$helper->url('amistad','rechazarAmistad')}\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"$solicitud->id\"><button class=\"btn btn-danger\" type=\"submit\" name=\"btnAccion\" value=\"rechazar\">Rechazar</button></form>"; ?>
                           </section>
                       <?php  } ?>
                     <?php  }else{
