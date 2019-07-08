@@ -15,14 +15,15 @@
               <div class="container">
                 <p>Solicitudes</p>
                     <article>
-                        <section>
-                          <img src="img/usuario_sitio/2.jpg" alt="persona2" width="50px" height="50px"/>
-                          <a href="buscador.html?usuario=wer23">wer23</a><button class="btn btn-success">Aceptar</button><button type="button" class="btn btn-danger">Rechazar</button>
-                        </section>
-                        <section>
-                          <img src="img/usuario_sitio/3.jpg" alt="persona2" width="50px" height="50px"/>
-                          <a href="buscador.html?usuario=frele">frele</a><button class="btn btn-success">Aceptar</button><button type="button" class="btn btn-danger">Rechazar</button>
-                        </section>
+                      <?php if(isset($amistad)){
+                        foreach ($amistad as $solicitud) { ?>
+                          <section><img src="<?php echo $solicitud->imagenPerfil; ?>" alt="<?php echo $solicitud->nombre; ?>" width="50px" height="50px">";
+                          <a href="<?php echo $helper->url("usuario","perfil"); ?>"><?php echo $solicitud->nombre." ".$solicitud->apellido; ?></a><button class="btn btn-success">Aceptar</button><button type="button" class="btn btn-danger">Rechazar</button>
+                          </section>
+                      <?php  } ?>
+                    <?php  }else{
+                      echo "no hay solicitudes";
+                    } ?>
                     </article>
                 </div>
 </body>

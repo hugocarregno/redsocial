@@ -40,7 +40,13 @@
               $_SESSION['nombre'] = $usuario[0]->nombre;
               $_SESSION['apellido'] = $usuario[0]->apellido;
               $_SESSION['tipo'] = "Usuario";
-              $this->view("muro",array("usuario" => $usuario));
+              $_SESSION['fechaalta'] = $usuario[0]->fechaalta;
+              $_SESSION['sexo'] = $usuario[0]->sexo;
+              $_SESSION['mail'] = $usuario[0]->mail;
+              $_SESSION['telefono'] = $usuario[0]->telefono;
+              $_SESSION['imagenPerfil'] = $usuario[0]->imagenPerfil;
+              $this->redirect("post","muro");
+              //$this->view("muro",array("usuario" => $usuario));
             }else{
               $mensaje='<span>Contraseña incorrecta</span>';
               $this->view("index",array("mensaje"=>$mensaje));
@@ -54,6 +60,11 @@
             $_SESSION['nombre'] = $moderador[0]->nombre;
             $_SESSION['apellido'] = $moderador[0]->apellido;
             $_SESSION['tipo'] = "Moderador";
+            $_SESSION['fechaalta'] = $moderador[0]->fechaalta;
+            $_SESSION['sexo'] = $moderador[0]->sexo;
+            $_SESSION['mail'] = $moderador[0]->mail;
+            $_SESSION['telefono'] = $moderador[0]->telefono;
+            $_SESSION['imagenPerfil'] =$moderador[0]->imagenPerfil;
             $this->view("panelModerador",array("moderador" => $moderador));
           }else{
             $mensaje='<span>Contraseña incorrecta</span>';
@@ -68,6 +79,11 @@
             $_SESSION['nombre'] = $administrador[0]->nombre;
             $_SESSION['apellido'] = $administrador[0]->apellido;
             $_SESSION['tipo'] = "Administrador";
+            $_SESSION['fechaalta'] = $administrador[0]->fechaalta;
+            $_SESSION['sexo'] = $administrador[0]->sexo;
+            $_SESSION['mail'] = $administrador[0]->mail;
+            $_SESSION['telefono'] = $administrador[0]->telefono;
+            $_SESSION['imagenPerfil'] =$administrador[0]->imagenPerfil;
             $adm= new Administrador($this->adapter);
             $adm = $adm->getFirst();
             $_SESSION['idSuperAdmin']=$adm[0]->id;

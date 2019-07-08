@@ -14,45 +14,83 @@
 <?php include("cabeceraView.php"); ?>
 <div class="usuario_muro">
     <div class="usuario">
-        <img src="img/usuario_sitio/2.jpg" alt="perfil"/>
-        <div class="usuario_nombre">Hugo</div>
+        <img src="<?php echo DIRECTORIO."usuario_sitio/".$_SESSION['imagenPerfil']; ?>" alt="perfil"/>
+        <div class="usuario_nombre"><?php if(isset($usuario)){
+          echo $usuario[0]->usuario;
+        }else{
+          echo $_SESSION['usuario'];
+        }  ?></div>
 
     </div>
-    <div class="usuario_nombrecompleto">Hugo Ezequiel Carreño</div>
-    <button class="btn btn-info">Solicitar Amistad</button>
-    <!--<button class="btn btn-danger">Cancelar Amistad</button>
-    <button class="default"> + Agregar a mi red</button>
--->
+    <div class="usuario_nombrecompleto"><?php echo $_SESSION['nombre']." ".$_SESSION['apellido']; ?></div>
+    <?php if($_SESSION['tipo']=="Usuario"){ ?>
+      <form action="<?php if(isset($amistad)){
+          if($amistad[0]->estado=="pendiente" || $amistad[0]->estado=="aceptado"){
+            echo $helper->url('amistad','cancelarAmistad');
+            $clase="btn btn-danger";
+            $texto="Cancelar Amistad";
+          }
+          if($amistad[0]->estado=="cancelado"){
+            echo $helper->url('usuario','solicitarAmistad');
+            $clase="btn btn-info";
+            $texto="Solicitar Amistad";
+          }
+            }else{
+            if(isset($usuario)){echo $helper->url('usuario','solicitarAmistad');
+            $clase="btn btn-info";
+            $texto="Solicitar Amistad";}
+
+            }   ?> " method="post">
+            <?php  if(isset($usuario)){echo "<button class=\"$clase\" name=\"btn_accion\">$texto</button><input type=\"hidden\" name=\"id\" value=\"{$usuario[0]->id}\" >"; } ?>
+          </form>
+    <?php    } ?>
 </div>
 <div class="usuario_menu">
     <ul><li class="opcion"><a href="#">Información</a></li>
-        <li class="opcion"><a href="#">Publicaciones</a></li>
-        <li class="opcion"><a href="#">Fotos</a></li>
+        <?php if($_SESSION['tipo']=="Usuario"){
+          echo "<li class=\"opcion\"><a href=\"#\">Publicaciones</a></li>
+          <li class=\"opcion\"><a href=\"#\">Fotos</a></li>";
+        }?>
     </ul>
     <br>
     <div class="desplegable">
         <section>
-            Nombre:
+            Nombre: <?php if(isset($usuario)){
+              echo $usuario[0]->nombre;
+            }else{ echo $_SESSION['nombre']; } ?>
         </section>
         <section>
-            Apellido:
+            Apellido: <?php if(isset($usuario)){
+              echo $usuario[0]->apellido;
+            }else{ echo $_SESSION['apellido']; } ?>
         </section>
         <section>
-            Sexo:
+            Sexo: <?php if(isset($usuario)){
+              if($usuario[0]->sexo==1){
+                echo "masculino";
+              }else{
+                echo "femenino";
+              }
+            }else{ if($_SESSION['sexo']==1){
+              echo "masculino";
+            }else{
+              echo "femenino";
+            }
+            } ?>
         </section>
         <section>
-            E - mail:
+            E - mail: <?php if(isset($usuario)){ echo $usuario[0]->mail; }else{ echo $_SESSION['mail'];} ?>
         </section>
         <section>
-            Teléfono:
+            Teléfono: <?php if(isset($usuario)){ echo $usuario[0]->telefono; }else{ echo $_SESSION['telefono'];} ?>
         </section>
         <section>
-            Se unio : 10/6/2019
+            Se unio : <?php if(isset($usuario)){ echo $usuario[0]->fechaalta; }else{ echo $_SESSION['fechaalta']; } ?>
         </section>
     </div>
 </div>
 <footer>
-    +cotitas 2019
+    <?php echo NOMBRE_EMPRESA; ?> 2019
 </footer>
 </body>
 </html>

@@ -134,6 +134,11 @@ section.publicar{
 	text-align: right;
 	min-height: 150px;
 }
+.titulo{
+	margin-right: 500px;
+	width: 100%;
+	border-radius: 8px 8px 0 0;
+}
 section.publicar textarea{
 	width: 100%;
 	min-width: 660px;

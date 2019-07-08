@@ -12,7 +12,7 @@ class UsuarioSitio extends EntidadBase{
     private $sexo;
     private $mail;
     private $telefono;
-    private $imagenperfil;
+    private $imagenPerfil;
     private $administrador;
 
     public function __construct($adapter) {
@@ -101,10 +101,10 @@ class UsuarioSitio extends EntidadBase{
          $this->telefono=$telefono;
     }
     public function getImagenPerfil(){
-        return $this->imagenperfil;
+        return $this->imagenPerfil;
     }
-    public function setImagenPerfil($imagenperfil){
-        $this->imagenperfil=$imagenperfil;
+    public function setImagenPerfil($imagenPerfil){
+        $this->imagenPerfil=$imagenPerfil;
     }
     public function getAdministrator(){
       return $this->administrador;
@@ -120,7 +120,7 @@ class UsuarioSitio extends EntidadBase{
 		//si es null entonces INSERT
 		if($this->id){
 			$query= "UPDATE usuario_sitio set usuario = '$this->usuario', password = '$this->password', usuarioultmod = '$this->usuarioultmod', fechaultmod = '$this->fechaultmod', fechaalta = '$this->fechaalta', estado = '$this->estado', nombre = '$this->nombre', apellido = '$this->apellido'
-			,sexo = '$this->sexo', mail = '$this->mail' ,telefono = '$this->telefono', imagenperfil = '$this->imagenperfil' where id = $this->id";
+			,sexo = '$this->sexo', mail = '$this->mail' ,telefono = '$this->telefono', imagenperfil = '$this->imagenPerfil' where id = $this->id";
 
 			$save=$this->db()->query($query);
 			//$this->db()->error;
@@ -139,7 +139,7 @@ class UsuarioSitio extends EntidadBase{
                        '".$this->sexo."',
                        '".$this->mail."',
                        '".$this->telefono."',
-                       '".$this->imagenperfil."');";
+                       '".$this->imagenPerfil."');";
             $save=$this->db()->query($query);
 
             //$this->db()->error;

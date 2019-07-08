@@ -1,13 +1,12 @@
 <?php
 class UsuarioController extends ControladorBase{
-    public $conectar;
+  public $conectar;
 	public $adapter;
 
-    public function __construct() {
-        parent::__construct();
-
-        $this->conectar=new Conectar();
-        $this->adapter =$this->conectar->conexion();
+  public function __construct() {
+      parent::__construct();
+      $this->conectar=new Conectar();
+      $this->adapter =$this->conectar->conexion();
     }
 
     public function registrar(){
@@ -95,7 +94,7 @@ class UsuarioController extends ControladorBase{
 
 		}
 
-		//Procesa el borrado de unUsuario
+/*		//Procesa el borrado de unUsuario
 		public function borrar(){
 			if(isset($_GET["id"])){
 				$id=(int)$_GET["id"];
@@ -147,22 +146,69 @@ class UsuarioController extends ControladorBase{
 			}
 			$this->redirect("Usuario", "index");
 		}
-
+*/
     public function perfil(){
       session_start();
       $this->view("perfil","");
     }
 
-    public function amigos(){
+
+
+  //  public function muro(){
+  //    session_start();
+  //    $this->view("muro","");
+//    }
+
+  
+
+    public function buscarUsuario(){
       session_start();
-      $this->view("amistad","");
+      if(isset($_POST['buscar']) && trim($_POST['busqueda']," ")){
+        if($_POST['busqueda'][0]!='#'){
+          $usuario= new UsuarioSitio($this->adapter);
+          $usuario=$usuario->getBy("usuario",$_POST['busqueda']);
+          if($usuario){
+            $amistad = new Amistad($this->adapter);
+            $amistad = $amistad->getByColumns("usuarioEmisor", $_SESSION['id'], "usuarioReceptor", $usuario[0]->id);
+            if($amistad){
+              $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
+            }else{
+              $this->view("perfil",array("usuario"=>$usuario));
+            }
+
+          }else{
+                echo "<script>alert('El usuario ingresado no existe');</script>";
+                $this->view("muro","");
+                }
+        }else{
+        //palabra clave
+        echo "<script>alert('palabra clave');</script>";
+        }
+      }
+
+
     }
 
-    public function muro(){
+    public function solicitarAmistad(){
       session_start();
-      $this->view("muro","");
+      $amistad= new Amistad($this->adapter);
+      $usuario= new UsuarioSitio($this->adapter);
+      $usuario=$usuario->getBy("id",$_POST['id']);
+      if($usuario){
+        $amistad->setUsuarioEmisor($_SESSION['id']);
+        $amistad->setUsuarioReceptor($usuario[0]->id);
+        date_default_timezone_set("America/Argentina/San_Luis");
+        $hoy = date("Y-m-d H:i:s", time());
+        $amistad->setFecha($hoy);
+        $save = $amistad->save();
+        $amistad=array($amistad);
+        //echo "<script>alert('Solicitud enviada correctamente');</script>";
+        $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
+        //$this->redirect("usuario","perfil");
+      }else{
+            echo "No se encontro el usuario";
+      }
     }
-
 
 }
 ?>

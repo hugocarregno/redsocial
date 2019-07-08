@@ -63,6 +63,28 @@ class EntidadBase{
         return $resultSet;
     }
 
+    public function getSolicitudes($value){
+      $consulta="SELECT * FROM usuario_sitio WHERE id IN (SELECT usuarioEmisor FROM $this->table WHERE usuarioReceptor= '$value' );";
+      $query=$this->db->query($consulta);
+      $resultSet=false;
+      while($row = $query->fetch_object()) {
+         $resultSet[]=$row;
+      }
+
+      return $resultSet;
+    }
+
+    public function getPublicaciones($value){
+      $consulta="SELECT * FROM post p JOIN usuario_sitio u ON u.id=p.idUsuario WHERE idUsuario IN (SELECT usuarioEmisor FROM amistad WHERE usuarioReceptor= '$value' );";
+      $query=$this->db->query($consulta);
+      $resultSet=false;
+      while($row = $query->fetch_object()) {
+         $resultSet[]=$row;
+      }
+
+      return $resultSet;
+    }
+
     public function getBy($column,$value){
         $query=$this->db->query("SELECT * FROM $this->table WHERE $column='$value'");
         $resultSet=false;
