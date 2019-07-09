@@ -48,7 +48,6 @@ class Amistad extends EntidadBase{
   //sino es null entonces UPDATE
   //si es null entonces INSERT
   if($this->id){
-    echo "<script>alert('save');</script>";
     $query= "UPDATE amistad set usuarioEmisor = '$this->usuarioEmisor', usuarioReceptor = '$this->usuarioReceptor', fecha = '$this->fecha', estado = '$this->estado' where id = $this->id ";
 
     $save=$this->db()->query($query);

@@ -168,14 +168,15 @@ class UsuarioController extends ControladorBase{
           $usuario= new UsuarioSitio($this->adapter);
           $usuario=$usuario->getBy("usuario",$_POST['busqueda']);
           if($usuario){
+            //usuario existe
             $amistad = new Amistad($this->adapter);
-            $amistad = $amistad->getAmistad("usuarioEmisor", $_SESSION['id'], "usuarioReceptor", $usuario[0]->id);
+            $amistad = $amistad->getAmistad($_SESSION['id'], $usuario[0]->id);
             if($amistad){
+              //ver que estado tiene
               $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
             }else{
               $this->view("perfil",array("usuario"=>$usuario));
             }
-
           }else{
                 echo "<script>alert('El usuario ingresado no existe');</script>";
                 $this->view("muro","");

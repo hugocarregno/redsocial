@@ -30,12 +30,14 @@ legend{
 }
 .usuario_nombre, .usuario_nombrecompleto{
 	display: block;
+	margin: 8%;
 	font-size: 16pt;
 	color: #001B31;
 	text-shadow: -1px -1px 14px rgba(255, 255, 255, 1);
 }
 .usuario_nombrecompleto{
 	float: left;
+	margin: 0%;
 }
 .usuario{
 	display: flex;

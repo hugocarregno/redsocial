@@ -14,7 +14,7 @@
 <?php include("cabeceraView.php"); ?>
 <div class="usuario_muro">
     <div class="usuario">
-        <img src="<?php echo DIRECTORIO."usuario_sitio/".$_SESSION['imagenPerfil']; ?>" alt="perfil"/>
+        <img src="<?php echo DIRECTORIO.$_SESSION['tipo']."/".$_SESSION['imagenPerfil']; ?>" alt="perfil" style="border-radius:50%; width:200px; height:200px;" />
         <div class="usuario_nombre"><?php if(isset($usuario)){
           echo $usuario[0]->usuario;
         }else{
@@ -46,16 +46,16 @@
             $texto="Solicitar Amistad";}
 
             }   ?> " method="post">
-            <?php  if(isset($usuario)){echo "<button class=\"$clase\" name=\"btn_accion\">$texto</button><input type=\"hidden\" name=\"id\" value=\"{$usuario[0]->id}\" >"; } ?>
+            <?php  if(isset($usuario)){echo "<button style=\"display:block;\" class=\"$clase\" name=\"btn_accion\">$texto</button><input type=\"hidden\" name=\"id\" value=\"{$usuario[0]->id}\" >"; } ?>
           </form>
     <?php    } ?>
 </div>
 <div class="usuario_menu">
     <ul><li class="opcion"><a href="#">Información</a></li>
-        <?php if($_SESSION['tipo']=="Usuario"){
-          echo "<li class=\"opcion\"><a href=\"#\">Publicaciones</a></li>
-          <li class=\"opcion\"><a href=\"#\">Fotos</a></li>";
-        }?>
+        <?php //if($_SESSION['tipo']=="Usuario"){
+        //  echo "<li class=\"opcion\"><a href=\"#\">Publicaciones</a></li>
+          //<li class=\"opcion\"><a href=\"#\">Fotos</a></li>";
+        //} ?>
     </ul>
     <br>
     <div class="desplegable">

@@ -48,9 +48,13 @@ class AmistadController extends ControladorBase{
     public function cancelarAmistad(){
       session_start();
       $amistad= new Amistad($this->adapter);
-      $usuario= new UsuarioSitio($this->adapter);
-      $amistad->getByColumns("usuarioEmisor",$_SESSION['id'],"usuarioReceptor",$_POST['id']);
+      //$usuario= new UsuarioSitio($this->adapter);
+      $amistad->getAmistad($_SESSION['id'], $_POST['id']);
+      if($amistad){
+        
+      }else{
 
+      }
     }
 
     public function aceptarAmistad(){

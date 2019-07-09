@@ -63,12 +63,15 @@ class EntidadBase{
         return $resultSet;
     }
 
-    public function getAmistad($column1,$value1,$column2,$value2){
-      $consulta="SELECT * FROM amistad WHERE ('$column1' = '$value1' OR '$column1' = '$value2') AND ('$column2' = '$value2' OR '$column2' = '$value1') AND (estado='cancelado' OR estado='rechazado' OR estado='eliminadoE' OR estado='eliminadoR');";
+    public function getAmistad($value1, $value2){
+      //AND (estado='cancelado' OR estado='rechazado' OR estado='eliminadoE' OR estado='eliminadoR')
+      $consulta="SELECT * FROM amistad WHERE ( usuarioEmisor = $value1 OR usuarioEmisor = $value2 ) AND ( usuarioReceptor = $value2 OR usuarioReceptor = $value1 );";
       $query=$this->db->query($consulta);
-      $resultSet=false;
+
       if($row = $query->fetch_object()) {
          $resultSet[]=$row;
+      }else{
+        $resultSet=false;
       }
 
       return $resultSet;

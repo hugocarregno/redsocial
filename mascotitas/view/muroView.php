@@ -42,11 +42,11 @@
             <?php if(isset($post)){
             foreach ($post as $posteo) { ?>
               <section>
-              <?php  echo "<div class=\"perfil\"><div class=\"foto\"><img src=\"assets/img/usuariositio/$posteo->imagenPerfil\" alt=\"$posteo->usuario\" width=\"50px\" height=\"50px\"></div>
+              <?php  echo "<div class=\"perfil\"><div class=\"foto\"><img src=\"DIRECTORIO.'/'.$posteo->imagenPerfil\" alt=\"$posteo->usuario\" width=\"50px\" height=\"50px\"></div>
               <div class=\"publicado\"><h2>$posteo->titulo</h2><h3><a href=\"{$helper->url('usuario','perfil')}\">$posteo->nombre $posteo->apellido</a></h3><h3>$posteo->fecha</h3></div>
               <div style=\"clear: both;\"></div></div>";
                       echo "<div class=\"publicacion\"><p>$posteo->descripcion</p></div> ";
-                      echo "<div class=\"acciones\"><span>Denunciar</span><input type=\"image\" src=\"img/denunciar.png\" width=\"20px\" height=\"20px\"></div>";
+                      echo "<div class=\"acciones\"><span>Denunciar</span><input type=\"image\" src=\"assets/img/denunciar.png\" width=\"20px\" height=\"20px\"></div>";
 
                ?>
               </section>
