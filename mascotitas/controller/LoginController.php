@@ -87,7 +87,9 @@
             $adm= new Administrador($this->adapter);
             $adm = $adm->getFirst();
             $_SESSION['idSuperAdmin']=$adm[0]->id;
-            $this->view("panelAdministrador","");
+            $moderador = new Moderador($this->adapter);
+            $moderador = $moderador->getAll();
+            $this->view("panelAdministrador",array("moderador"=>$moderador));
           }else{
             $mensaje='<span>Contraseña incorrecta</span>';
             $this->view("index",array("mensaje"=>$mensaje));

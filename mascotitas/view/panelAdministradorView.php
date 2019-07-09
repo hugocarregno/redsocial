@@ -20,28 +20,37 @@
       echo "<button type=\"button\" class=\"btn btn-link\"><a href=\"{$helper->url('administrador','registrarAdministrador')}\">Registrar Administrador</a></button>";
     }
   ?>
-    <p>Moderadores</p>
-    <table border=1>
-        <tr>
-            <th>Usuario</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Sexo</th>
-            <th>Mail</th>
-            <th>Telefono</th>
-            <th></th>
-        </tr>
-        <tr>
-            <td>brisa20</td>
-            <td>Brisa</td>
-            <td>Funes</td>
-            <td>Femenino</td>
-            <td>brisa10@hotmail.com</td>
-            <td>2664212399</td>
-            <td><button type="submit" class="btn btn-danger">Desactivar</button></td>
-            <!-- <td><button type="submit" class="btn btn-success">Activar</button></td> -->
-        </tr>
-    </table>
+  <p>Moderadores</p>
+  <table border=1>
+    <tr>
+        <th>Usuario</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Sexo</th>
+        <th>Mail</th>
+        <th>Telefono</th>
+        <th></th>
+    </tr>
+  <?php
+  if(isset($moderador)){
+    foreach ($moderador as $mod) {
+      echo "<tr>
+          <td>$mod->usuario</td>
+          <td>$mod->nombre</td>
+          <td>$mod->apellido</td>
+          <td>$mod->sexo</td>
+          <td>$mod->mail</td>
+          <td>$mod->telefono</td>";
+      if($mod->estado==1){
+        echo "<td><button type=\"submit\" class=\"btn btn-danger\">Desactivar</button></td>";
+      }else{
+        echo "<td><button type=\"submit\" class=\"btn btn-success\">Activar</button></td>";
+      }
+      echo "</tr>";
+    }
+  }
+    ?>
+        </table>
 </div>
 <footer>
     +cotitas 2019

@@ -208,7 +208,7 @@ class AdministradorController extends ControladorBase{
           }
         $save=$moderador->save();
       }
-        $this->view("panelAdministrador", "");
+        $this->view("panelAdministrador", array("moderador"=>$moderador));
     }else{
       echo "<script>alert('El usuario ya existe'); </script>";
       $mensaje='<span>Ingrese un usuario diferente</span>';
