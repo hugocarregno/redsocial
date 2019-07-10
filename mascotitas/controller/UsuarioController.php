@@ -149,6 +149,25 @@ class UsuarioController extends ControladorBase{
 */
     public function perfil(){
       session_start();
+      if(isset($_POST['usuario']) || isset($_POST['lugar'])){
+        $usuario= new UsuarioSitio($this->adapter);
+        $usuario=$usuario->getBy("usuario",$_POST['busqueda']);
+        if($usuario){
+          //usuario existe
+          $amistad = new Amistad($this->adapter);
+          $amistad = $amistad->getAmistad($_SESSION['id'], $usuario[0]->id);
+          if(($_POST['lugar'])=="muro" && $_SESSION['id'] == $usuario[0]->id){
+            $this->view("perfil","");
+            exit;
+          }
+          if($amistad){
+            //ver que estado tiene
+            $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
+          }else{
+            $this->view("perfil",array("usuario"=>$usuario));
+          }
+      }
+    }
       $this->view("perfil","");
     }
 
@@ -164,7 +183,13 @@ class UsuarioController extends ControladorBase{
     public function buscarUsuario(){
       session_start();
       if(isset($_POST['buscar']) && trim($_POST['busqueda']," ")){
+        //si no tiene # se supone que es una persona
         if($_POST['busqueda'][0]!='#'){
+          //si es el usuario que esta logeado
+          if($_POST['busqueda']==$_SESSION['usuario']){
+            $this->view("perfil","");
+            exit;
+          }
           $usuario= new UsuarioSitio($this->adapter);
           $usuario=$usuario->getBy("usuario",$_POST['busqueda']);
           if($usuario){
@@ -172,7 +197,6 @@ class UsuarioController extends ControladorBase{
             $amistad = new Amistad($this->adapter);
             $amistad = $amistad->getAmistad($_SESSION['id'], $usuario[0]->id);
             if($amistad){
-              //ver que estado tiene
               $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
             }else{
               $this->view("perfil",array("usuario"=>$usuario));

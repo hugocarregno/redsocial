@@ -14,7 +14,7 @@
 <?php include("cabeceraView.php"); ?>
 <div class="usuario_muro">
     <div class="usuario">
-        <img src="<?php echo DIRECTORIO.$_SESSION['tipo']."/".$_SESSION['imagenPerfil']; ?>" alt="perfil" style="border-radius:50%; width:200px; height:200px;" />
+        <img src="<?php echo DIRECTORIO.$_SESSION['tipo']."/"; if(isset($usuario)){ echo $usuario[0]->imagenPerfil; }else{ echo $_SESSION['imagenPerfil'];} ?>" alt="perfil" style="border-radius:50%; width:200px; height:200px;" />
         <div class="usuario_nombre"><?php if(isset($usuario)){
           echo $usuario[0]->usuario;
         }else{
@@ -22,33 +22,63 @@
         }  ?></div>
 
     </div>
-    <div class="usuario_nombrecompleto"><?php echo $_SESSION['nombre']." ".$_SESSION['apellido']; ?></div>
+    <div class="usuario_nombrecompleto"><?php if(isset($usuario)){echo $usuario[0]->nombre." ".$usuario[0]->apellido;}else{ echo $_SESSION['nombre']." ".$_SESSION['apellido']; }  ?>
     <?php if($_SESSION['tipo']=="Usuario"){ ?>
       <form action="<?php if(isset($amistad)){
-          if($amistad[0]->estado=="pendiente" || $amistad[0]->estado=="aceptado"){
-            echo $helper->url('amistad','cancelarAmistad');
+        //$_SESSION['amistad']=$amistad[0]->estado;
+          if($amistad[0]->estado=="pendiente"){
+            echo $helper->url('amistad','gestionAmistad');
             $clase="btn btn-danger";
+            if($amistad[0]->usuarioEmisor==$_SESSION['id']){
+              $texto="Cancelar Solicitud";
+              $valorBtn="enviado";
+            }else{
+              $texto="Rechazar Solicitud";
+              $valorBtn="rechazado";
+            }
+          }
+          if($amistad[0]->estado=="aceptado"){
+            echo $helper->url('amistad','gestionAmistad');
+            $clase="btn btn-danger";
+            if($amistad[0]->usuarioEmisor==$_SESSION['id']){
+              $valorBtn="eliminadoE";
+            }else{
+              $valorBtn="eliminadoR";
+            }
             $texto="Cancelar Amistad";
           }
           if($amistad[0]->estado=="cancelado" || $amistad[0]->estado=="rechazado"){
-            echo $helper->url('amistad','solicitarAmistad');
+            echo $helper->url('amistad','gestionAmistad');
             $clase="btn btn-info";
             $texto="Solicitar Amistad";
+            $valorBtn="confirmado";
           }
           if($amistad[0]->estado=="eliminadoE" || $amistad[0]->estado=="eliminadoR"){
-            echo $helper->url('amistad','solicitarAmistad');
+            echo $helper->url('amistad','gestionAmistad');
             $clase="btn btn-info";
             $texto="Solicitar Amistad";
+            $valorBtn="confirmado";
           }
             }else{
-            if(isset($usuario)){echo $helper->url('amistad','solicitarAmistad');
-            $clase="btn btn-info";
-            $texto="Solicitar Amistad";}
+            if(isset($usuario)){
+              echo $helper->url('amistad','gestionAmistad');
+              $clase="btn btn-info";
+              $texto="Solicitar Amistad";
+              $valorBtn="confirmado";
+            }
 
-            }   ?> " method="post">
-            <?php  if(isset($usuario)){echo "<button style=\"display:block;\" class=\"$clase\" name=\"btn_accion\">$texto</button><input type=\"hidden\" name=\"id\" value=\"{$usuario[0]->id}\" >"; } ?>
-          </form>
-    <?php    } ?>
+          }  ?> " method="post">
+      <?php
+      if(isset($usuario)){
+        if($valorBtn=="rechazado"){
+          echo "<button style=\"display:inline;\" class=\"btn btn-success\" name=\"btnAgregar\" value=\"confirmado\" >Aceptar</button>";
+        }
+        echo "<button style=\"display:inline;\" class=\"$clase\" name=\"btnAccion\" value=\"$valorBtn\" >$texto</button>";
+        echo "<input type=\"hidden\" name=\"id\" value=\"{$usuario[0]->id}\"><input type=\"hidden\" name=\"lugar\" value=\"perfil\">";
+        }
+
+     } ?></form>
+
 </div>
 <div class="usuario_menu">
     <ul><li class="opcion"><a href="#">Información</a></li>
@@ -90,7 +120,7 @@
             Teléfono: <?php if(isset($usuario)){ echo $usuario[0]->telefono; }else{ echo $_SESSION['telefono'];} ?>
         </section>
         <section>
-            Se unio : <?php if(isset($usuario)){ echo $usuario[0]->fechaAlta; }else{ echo $_SESSION['fechaAlta']; } ?>
+            Se unio : <?php if(isset($usuario)){ echo date("d-m-Y", strtotime($usuario[0]->fechaAlta)); }else{ echo date("d-m-Y", strtotime($_SESSION['fechaAlta'])); } ?>
         </section>
     </div>
 </div>

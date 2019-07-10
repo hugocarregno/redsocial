@@ -36,7 +36,7 @@ legend{
 	text-shadow: -1px -1px 14px rgba(255, 255, 255, 1);
 }
 .usuario_nombrecompleto{
-	float: left;
+	display: inline-flex;
 	margin: 0%;
 }
 .usuario{
@@ -181,7 +181,7 @@ div.usuario_menu{
 	border:1px solid #CCCCCC;
 	width:1000px;
 	margin:auto;
-	margin-top:30px;
+	margin-top:69px;
 	background: #fff;
 	font-size: 0px;
 }

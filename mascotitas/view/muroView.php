@@ -35,6 +35,8 @@
                     <input type="file" class="custom-file-input" lang="es" name="adjunto">
                     <label class="custom-file-label" for="customFileLang">Adjunto</label>
                   </div>
+                  <input type="radio" name="visibilidad" value="amigos" id="amigos" checked>Amigos
+                  <input type="radio" name="visibilidad" value="publico" id="publico">Público
                   <input type="submit" class="btn btn-info" value="Publicar" name="publicar">
                 </div>
               </form>
@@ -42,17 +44,22 @@
             <?php if(isset($post)){
             foreach ($post as $posteo) { ?>
               <section>
-              <?php  echo "<div class=\"perfil\"><div class=\"foto\"><img src=\"DIRECTORIO.'/'.$posteo->imagenPerfil\" alt=\"$posteo->usuario\" width=\"50px\" height=\"50px\"></div>
-              <div class=\"publicado\"><h2>$posteo->titulo</h2><h3><a href=\"{$helper->url('usuario','perfil')}\">$posteo->nombre $posteo->apellido</a></h3><h3>$posteo->fecha</h3></div>
+              <?php  echo "<div class=\"perfil\"><div class=\"foto\"><img src=\"".DIRECTORIO.$_SESSION['tipo'].'/'.$posteo->imagenPerfil."\" alt=\"$posteo->usuario\" width=\"50px\" height=\"50px\"></div>
+              <div class=\"publicado\"><h2>$posteo->titulo</h2><h3><form method=\"post\" action=\"{$helper->url('usuario','perfil')}\" ><button type=\"submit\" class=\"btn btn-link\" style=\"display:inherit;\" name=\"busqueda\" value=\"$posteo->usuario\">$posteo->nombre $posteo->apellido</button><input type=\"hidden\" name=\"lugar\" value=\"muro\"></form></h3><h3>".date('d-m-Y H:i:s', strtotime($posteo->fecha))."</h3></div>
               <div style=\"clear: both;\"></div></div>";
-                      echo "<div class=\"publicacion\"><p>$posteo->descripcion</p></div> ";
-                      echo "<div class=\"acciones\"><span>Denunciar</span><input type=\"image\" src=\"assets/img/denunciar.png\" width=\"20px\" height=\"20px\"></div>";
+                      echo "<div class=\"publicacion\"><p>$posteo->descripcion</p><img src=\"".DIRECTORIO.'post/'.$posteo->foto1."\" width=\"50%\"></div> ";
+                      echo "<div class=\"acciones\"><span> Comentar </span>";
+                      if($_SESSION['usuario']==$posteo->usuario){
+                        echo "<span> Editar </span>";
+                      }
+                      echo "<span> Denunciar</span><input type=\"image\" src=\"assets/img/denunciar.png\" width=\"20px\" height=\"20px\"></div>";
 
                ?>
               </section>
           <?php  }
           } ?>
         </article>
+
 
 
 <!--

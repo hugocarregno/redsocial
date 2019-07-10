@@ -89,7 +89,7 @@ class EntidadBase{
     }
 
     public function getPublicaciones($value){
-      $consulta="SELECT * FROM post p JOIN usuariositio u ON u.id=p.idUsuario WHERE idUsuario IN (SELECT usuarioEmisor FROM amistad WHERE (usuarioReceptor= '$value' AND estado='aceptado')) OR (SELECT usuarioReceptor FROM amistad WHERE (usuarioEmisor= '$value' AND estado='aceptado'));";
+      $consulta="SELECT * FROM post p JOIN usuariositio u ON u.id=p.idUsuario WHERE idUsuario IN (SELECT usuarioEmisor FROM amistad WHERE (usuarioReceptor= '$value' AND estado='aceptado')) OR (SELECT usuarioReceptor FROM amistad WHERE (usuarioEmisor= '$value' AND estado='aceptado')) OR idUsuario;";
       $query=$this->db->query($consulta);
       $resultSet=false;
       while($row = $query->fetch_object()) {
