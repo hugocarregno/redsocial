@@ -91,7 +91,7 @@ public function crearPublicacion(){
         }
         $publicacion->setEstado(1);
         $publicacion->setUsuario($_SESSION['id']);
-
+        $publicacion->setVisibilidad($_POST['visibilidad']);
         //preguntar si hay adjunto y mandarlo
         //pregtuntar si hay fotos y mandarlo
         $save=$publicacion->save();

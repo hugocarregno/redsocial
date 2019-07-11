@@ -12,6 +12,7 @@ class Post extends EntidadBase{
   private $palabraClave2;
   private $palabraClave3;
   private $estado;
+  private $visibilidad;
   private $usuario;
 
 
@@ -94,6 +95,12 @@ class Post extends EntidadBase{
   public function setEstado($estado){
       $this->estado=$estado;
   }
+  public function getVisibilidad(){
+      return $this->visibilidad;
+  }
+  public function setVisibilidad($visibilidad){
+      $this->visibilidad=$visibilidad;
+  }
   public function setUsuario($usuario){
     $this->usuario=$usuario;
   }
@@ -109,13 +116,13 @@ class Post extends EntidadBase{
   //si es null entonces INSERT
   if($this->id){
     $query= "UPDATE post set fecha = '$this->fecha', titulo = '$this->titulo', descripcion = '$this->descripcion', foto1 = '$this->foto1', foto2 = '$this->foto2', foto3 = '$this->foto3', adjunto = '$this->adjunto',
-    palabraClave1 = '$this->palabraClave1', palabraClave2 = '$this->palabraClave2', palabraClave3 = '$this->palabraClave3', estado = '$this->estado', idUsuario = '$this->usuario' where id = $this->id";
+    palabraClave1 = '$this->palabraClave1', palabraClave2 = '$this->palabraClave2', palabraClave3 = '$this->palabraClave3', visibilidad = '$this->visibilidad', estado = '$this->estado', idUsuario = '$this->usuario' where id = $this->id";
     $save=$this->db()->query($query);
     //$this->db()->error;
     return $save;
 
   }else{
-          $query="INSERT INTO post (id, fecha, titulo, descripcion, foto1, foto2, foto3, adjunto, palabraClave1, palabraClave2, palabraClave3, estado, idUsuario)
+          $query="INSERT INTO post (id, fecha, titulo, descripcion, foto1, foto2, foto3, adjunto, palabraClave1, palabraClave2, palabraClave3, visibilidad, estado, idUsuario)
               VALUES(NULL,'".$this->fecha."',
                      '".$this->titulo."',
                      '".$this->descripcion."',
@@ -126,6 +133,7 @@ class Post extends EntidadBase{
                      '".$this->palabraClave1."',
                      '".$this->palabraClave2."',
                      '".$this->palabraClave3."',
+                     '".$this->visibilidad."',
                      '".$this->estado."',
                      '".$this->usuario."');";
           $save=$this->db()->query($query);
