@@ -74,7 +74,7 @@ class AdministradorController extends ControladorBase{
           if($fileSize<3000000){
             if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){
 
-               $imagenes=$_SERVER['DOCUMENT_ROOT'].DIRECTORIO."administrador/";
+               $imagenes=$_SERVER['DOCUMENT_ROOT'].DIRECTORIO."Administrador/";
 
                $extension=explode("/",$fileType);
                $fileName=$admin->getUsuario().'.'.$extension[1];
@@ -195,7 +195,7 @@ class AdministradorController extends ControladorBase{
 
         if($fileSize<3000000){
           if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){
-             $imagenes=$_SERVER['DOCUMENT_ROOT'].DIRECTORIO."moderador/";
+             $imagenes=$_SERVER['DOCUMENT_ROOT'].DIRECTORIO."Moderador/";
              $extension=explode("/",$fileType);
              $fileName=$moderador->getUsuario().'.'.$extension[1];
              $filePath=$imagenes.$fileName;

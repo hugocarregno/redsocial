@@ -47,7 +47,7 @@
             foreach ($post as $posteo) { ?>
               <section>
               <?php  echo "<div class=\"perfil\"><div class=\"foto\"><img src=\"".DIRECTORIO.$_SESSION['tipo'].'/'.$posteo->imagenPerfil."\" alt=\"$posteo->usuario\" width=\"50px\" height=\"50px\"></div>
-              <div class=\"publicado\"><h2>$posteo->titulo</h2><h3><form method=\"post\" action=\"{$helper->url('usuario','perfil')}\" ><button type=\"submit\" class=\"btn btn-link\" style=\"display:inherit;\" name=\"busqueda\" value=\"$posteo->usuario\">$posteo->nombre $posteo->apellido</button><input type=\"hidden\" name=\"lugar\" value=\"muro\"></form></h3><h3>".date('d-m-Y H:i:s', strtotime($posteo->fecha))."</h3></div>
+              <div class=\"publicado\"><h2>$posteo->titulo<span style=\"padding-left:78%\">$posteo->visibilidad</span></h2><h3><form method=\"post\" action=\"{$helper->url('usuario','perfil')}\" ><button type=\"submit\" class=\"btn btn-link\" style=\"display:inherit;\" name=\"busqueda\" value=\"$posteo->usuario\">$posteo->nombre $posteo->apellido</button><input type=\"hidden\" name=\"lugar\" value=\"muro\"></form></h3><h3>".date('d-m-Y H:i:s', strtotime($posteo->fecha))."</h3></div>
               <div style=\"clear: both;\"></div></div>";
                       echo "<div class=\"publicacion\"><p>$posteo->descripcion</p><img src=\"".DIRECTORIO.'post/'.$posteo->foto1."\" width=\"50%\"></div> ";
                       echo "<div class=\"acciones\"><span> Comentar </span>";
