@@ -29,7 +29,7 @@
                 <input type="text" name="apellido" id="apellido" maxlength="50" autocomplete="off" required  placeholder="Apellido">
             </div>
             <div>
-                <label for="masculino">Masculino</label><input type="radio" name='sexo' value='masculino' id='masculino'>
+                <label for="masculino">Masculino</label><input type="radio" name='sexo' value='masculino' id='masculino' checked>
                 <label for="femenino">Femenino</label><input type="radio" name='sexo' value='femenino' id='femenino'>
             </div>
             <div>
