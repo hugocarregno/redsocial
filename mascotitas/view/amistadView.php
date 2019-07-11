@@ -19,7 +19,7 @@
                         foreach ($amistad as $solicitud) { ?>
                           <section style="display: inline-flex"><img src="<?php echo DIRECTORIO.$_SESSION['tipo']."/".$solicitud->imagenPerfil; ?>" alt="<?php echo $solicitud->nombre; ?>" width="50px" height="50px">
                           <form method="post" action="<?php echo $helper->url("usuario","perfil"); ?>"><button type="submit" class="btn btn-link" name="usuario" value="<?php echo $solicitud->usuario; ?>"><?php echo $solicitud->usuario; ?></button></form>
-                          <?php echo "<form style=\"display:inline;\" action=\"{$helper->url('amistad','gestionAmistad')}\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"$solicitud->id\"><button class=\"btn btn-success\" type=\"submit\" name=\"btnAccion\" value=\"confirmado\">Aceptar</button></form>
+                          <?php echo "<form style=\"display:inline;\" action=\"{$helper->url('amistad','gestionAmistad')}\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"$solicitud->id\"><button class=\"btn btn-success\" type=\"submit\" name=\"btnAccion\" value=\"enviar\">Aceptar</button></form>
                           <form style=\"display:inline;\" action=\"{$helper->url('amistad','gestionAmistad')}\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"$solicitud->id\"><button class=\"btn btn-danger\" type=\"submit\" name=\"btnAccion\" value=\"rechazado\">Rechazar</button></form>"; ?>
                           </section>
                       <?php  } ?>

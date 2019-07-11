@@ -107,7 +107,7 @@ class AmistadController extends ControladorBase{
             }
             break;
             //aca es cuando ya hay relacion y se quuiere reenviar amistad
-          case "enviar":
+      /*    case "enviar":
             if($amista){
             $amistad= new Amistad($this->adapter);
             $amistad->setId($amista[0]->id);
@@ -131,44 +131,44 @@ class AmistadController extends ControladorBase{
               $this->redirect("amistad","solicitudes");
             }
             }
-            break;
+            break;*/
             //usuario ve la solicitud buscando usuario o en solicitudes y acepta
-          case "confirmado":
+          case "enviar":
             if($amista){
-
               $amistad= new Amistad($this->adapter);
-              $amistad->setId($amista[0]->id);
-
-            //if($_SESSION['id']==$amista[0]->usuarioEmisor){
-              $amistad->setUsuarioEmisor($amista[0]->usuarioEmisor);
-              $amistad->setUsuarioReceptor($amista[0]->usuarioReceptor);
-          //  }else{
-          //    $amistad->setUsuarioEmisor($amista[0]->usuarioReceptor);
-        //      $amistad->setUsuarioReceptor($amista[0]->usuarioEmisor);
-            //}
-            
-              $amistad->setEstado("pendiente");
-              $hoy = date("Y-m-d H:i:s", time());
-              $amistad->setFecha($hoy);
-              $save=$amistad->save();
-              $amistad = $amistad->getAmistad($_SESSION['id'], $_POST['id']);
-              if(isset($_POST['lugar'])){
-                $usuario= new UsuarioSitio($this->adapter);
-                $usuario=$usuario->getBy("id",$_POST['id']);
-                $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
-              }else{
-                $this->redirect("amistad","solicitudes");
-              }
+                //si esta pendiente significa que acepto amistad
+                $amistad->setId($amista[0]->id);
+                if($amista[0]->estado=="pendiente"){
+                  $amistad->setUsuarioEmisor($amista[0]->usuarioEmisor);
+                  $amistad->setUsuarioReceptor($amista[0]->usuarioReceptor);
+                  $amistad->setEstado("aceptado");
+                }else{
+                  if($_SESSION['id']==$amista[0]->usuarioEmisor){
+                    $amistad->setUsuarioEmisor($amista[0]->usuarioEmisor);
+                    $amistad->setUsuarioReceptor($amista[0]->usuarioReceptor);
+                  }else{
+                    $amistad->setUsuarioEmisor($amista[0]->usuarioReceptor);
+                    $amistad->setUsuarioReceptor($amista[0]->usuarioEmisor);
+                  }
+                  $amistad->setEstado("pendiente");
+                }
+                $hoy = date("Y-m-d H:i:s", time());
+                $amistad->setFecha($hoy);
+                $save=$amistad->save();
+                $amistad = $amistad->getAmistad($_SESSION['id'], $_POST['id']);
+                if(isset($_POST['lugar'])){
+                  $usuario= new UsuarioSitio($this->adapter);
+                  $usuario=$usuario->getBy("id",$_POST['id']);
+                  $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
+                }else{
+                  $this->redirect("amistad","solicitudes");
+                }
             }else{
               //no son amigos en db, se debe crear
               $amistad= new Amistad($this->adapter);
               $usuario= new UsuarioSitio($this->adapter);
               $usuario=$usuario->getBy("id",$_POST['id']);
               if($usuario){
-                $amista= new Amistad($this->adapter);
-                $amista=$amista->getAmistad($_SESSION['id'], $_POST['id']);
-                if($amista){
-                $amistad->setId($amista[0]->id);
                 $amistad->setUsuarioEmisor($_SESSION['id']);
                 $amistad->setUsuarioReceptor($usuario[0]->id);
                 //date_default_timezone_set("America/Argentina/San_Luis");
@@ -176,32 +176,12 @@ class AmistadController extends ControladorBase{
                 $amistad->setFecha($hoy);
                 $amistad->setEstado("pendiente");
                 $save = $amistad->save();
-                //$amistad=array($amistad);
-                $amistad = $amistad->getByColumns("usuarioEmisor", $_SESSION['id'], "usuarioReceptor", $usuario[0]->id);
+                $amistad = $amistad->getAmistad($_SESSION['id'], $usuario[0]->id);
                 //echo "<script>alert('Solicitud enviada correctamente');</script>";
                 $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
-                //$this->redirect("usuario","perfil");
-              }else{
-                echo "no son amigos";
-                $amistad->setUsuarioEmisor($_SESSION['id']);
-                $amistad->setUsuarioReceptor($usuario[0]->id);
-                //date_default_timezone_set("America/Argentina/San_Luis");
-                $hoy = date("Y-m-d H:i:s", time());
-                $amistad->setFecha($hoy);
-                $amistad->setEstado("pendiente");
-                $save = $amistad->save();
-                //$amistad=array($amistad);
-                $amistad = $amistad->getByColumns("usuarioEmisor", $_SESSION['id'], "usuarioReceptor", $usuario[0]->id);
-                //echo "<script>alert('Solicitud enviada correctamente');</script>";
-                $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
-              }
               }else{
                     echo "No se encontro el usuario";
               }
-
-
-
-              //
             }
             break;
             //receptor elimina la amistad que habia

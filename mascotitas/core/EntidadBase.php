@@ -65,7 +65,7 @@ class EntidadBase{
 
     public function getAmistad($value1, $value2){
       //AND (estado='cancelado' OR estado='rechazado' OR estado='eliminadoE' OR estado='eliminadoR')
-      $consulta="SELECT * FROM amistad WHERE ( usuarioEmisor = $value1 OR usuarioEmisor = $value2 ) AND ( usuarioReceptor = $value2 OR usuarioReceptor = $value1 );";
+      $consulta="SELECT * FROM amistad WHERE ( usuarioEmisor = $value1 AND usuarioReceptor = $value2 ) OR (usuarioEmisor = $value2 AND usuarioReceptor = $value1 );";
       $query=$this->db->query($consulta);
 
       if($row = $query->fetch_object()) {
@@ -89,7 +89,8 @@ class EntidadBase{
     }
 
     public function getPublicaciones($value){
-      $consulta="SELECT * FROM post p JOIN usuariositio u ON u.id=p.idUsuario WHERE idUsuario IN (SELECT usuarioEmisor FROM amistad WHERE (usuarioReceptor= '$value' AND estado='aceptado')) OR (SELECT usuarioReceptor FROM amistad WHERE (usuarioEmisor= '$value' AND estado='aceptado')) OR idUsuario;";
+      //SELECT * FROM post p JOIN usuariositio u ON u.id=p.idUsuario WHERE visibilidad='publico' OR idUsuario IN (SELECT usuarioEmisor FROM amistad a WHERE a.usuarioEmisor=1 AND estado='aceptado') OR (SELECT usuarioReceptor FROM amistad a WHERE a.usuarioReceptor=1 AND estado='aceptado')
+      $consulta="SELECT * FROM post p JOIN usuariositio u ON u.id=p.idUsuario WHERE (idUsuario IN (SELECT usuarioEmisor FROM amistad WHERE (usuarioReceptor= '$value' AND estado='aceptado')) OR (SELECT usuarioReceptor FROM amistad WHERE (usuarioEmisor= '$value' AND estado='aceptado')) OR idUsuario ) OR p.visibilidad='publico' ORDER BY p.fecha DESC;";
       $query=$this->db->query($consulta);
       $resultSet=false;
       while($row = $query->fetch_object()) {

@@ -53,7 +53,7 @@
             echo $helper->url('amistad','gestionAmistad');
             $clase="btn btn-info";
             $texto="Enviar Solicitud";
-            $valorBtn="confirmado";
+            $valorBtn="enviar";
           }
           if($amistad[0]->estado=="eliminadoE" || $amistad[0]->estado=="eliminadoR"){
             echo $helper->url('amistad','gestionAmistad');
@@ -66,14 +66,14 @@
               echo $helper->url('amistad','gestionAmistad');
               $clase="btn btn-info";
               $texto="Enviar Solicitud";
-              $valorBtn="confirmado";
+              $valorBtn="enviar";
             }
 
           }  ?> " method="post">
       <?php
       if(isset($usuario)){
         if($valorBtn=="rechazado"){
-          echo "<button style=\"display:inline;\" class=\"btn btn-success\" name=\"btnAccion\" value=\"confirmado\" >Aceptar</button>";
+          echo "<button style=\"display:inline;\" class=\"btn btn-success\" name=\"btnAccion\" value=\"enviar\" >Aceptar</button>";
         }
         echo "<button style=\"display:inline;\" class=\"$clase\" name=\"btnAccion\" value=\"$valorBtn\" >$texto</button>";
         echo "<input type=\"hidden\" name=\"id\" value=\"{$usuario[0]->id}\"><input type=\"hidden\" name=\"lugar\" value=\"perfil\">";
