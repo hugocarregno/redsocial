@@ -41,7 +41,13 @@
           <td>$mod->usuario</td>
           <td>$mod->nombre</td>
           <td>$mod->apellido</td>
-          <td>$mod->sexo</td>
+          <td>";
+        if($mod->sexo == 1){
+          echo "masculino";
+        }else{
+          echo "femenino";
+        }
+        echo   "</td>
           <td>$mod->mail</td>
           <td>$mod->telefono</td>";
       if($mod->estado==1){
