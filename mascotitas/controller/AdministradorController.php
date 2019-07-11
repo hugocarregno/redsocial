@@ -120,7 +120,13 @@ class AdministradorController extends ControladorBase{
   $administrador = $administrador->getAll();
   //$administrador->setId(1);
   if($administrador){
-    $this->view("panelAdministrador",array("administrador"=>$administrador));
+    $moderador= new Moderador($this->adapter);
+    $moderador= $moderador->getAll();
+    if($moderador){
+      $this->view("panelAdministrador",array("administrador"=>$administrador,"moderador"=>$moderador));
+    }else{
+      $this->view("panelAdministrador",array("administrador"=>$administrador));
+    }
   }
   else{
     echo "no";
@@ -148,7 +154,6 @@ class AdministradorController extends ControladorBase{
     $existeModerador=new Moderador($this->adapter);
     $existeAdmin=new Administrador($this->adapter);
     if(!$existeUsuario->getBy("usuario",$_POST['usuario']) && !$existeModerador->getBy("usuario",$_POST['usuario']) && !$existeAdmin->getBy("usuario",$_POST['usuario'])){
-      var_dump($_POST);
       if(isset($_POST["btn_accion"]) && isset($_POST['usuario']) && trim($_POST['usuario']," ") && isset($_POST['password']) && trim($_POST['password']," ") && isset($_POST['nombre']) && trim($_POST['nombre']," ") &&
         isset($_POST['apellido']) && trim($_POST['apellido']," ") && isset($_POST['sexo']) && trim($_POST['sexo']," ") && isset($_POST['mail']) && trim($_POST['mail']," ") && isset($_POST['telefono']) &&
         trim($_POST['telefono']," ") && !empty($_FILES['imagenPerfil']['name']) ){
@@ -208,6 +213,7 @@ class AdministradorController extends ControladorBase{
           }
         $save=$moderador->save();
       }
+        $moderador=$moderador->getAll();
         $this->view("panelAdministrador", array("moderador"=>$moderador));
     }else{
       echo "<script>alert('El usuario ya existe'); </script>";

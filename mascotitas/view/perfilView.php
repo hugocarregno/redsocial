@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <title>Perfil</title>
+        <title>Masctotitas - Perfil</title>
         <link rel="stylesheet" type="text/css" href="assets/css/estilo.css" />
         <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
+        <script type="text/javascript" src="assets/js/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta charset="utf-8">
         <meta name="description" content="Red social para amantes de los animales">
@@ -50,20 +52,20 @@
           if($amistad[0]->estado=="cancelado" || $amistad[0]->estado=="rechazado"){
             echo $helper->url('amistad','gestionAmistad');
             $clase="btn btn-info";
-            $texto="Solicitar Amistad";
+            $texto="Enviar Solicitud";
             $valorBtn="confirmado";
           }
           if($amistad[0]->estado=="eliminadoE" || $amistad[0]->estado=="eliminadoR"){
             echo $helper->url('amistad','gestionAmistad');
             $clase="btn btn-info";
-            $texto="Solicitar Amistad";
-            $valorBtn="confirmado";
+            $texto="Enviar Solicitud";
+            $valorBtn="enviar";
           }
             }else{
             if(isset($usuario)){
               echo $helper->url('amistad','gestionAmistad');
               $clase="btn btn-info";
-              $texto="Solicitar Amistad";
+              $texto="Enviar Solicitud";
               $valorBtn="confirmado";
             }
 
@@ -71,7 +73,7 @@
       <?php
       if(isset($usuario)){
         if($valorBtn=="rechazado"){
-          echo "<button style=\"display:inline;\" class=\"btn btn-success\" name=\"btnAgregar\" value=\"confirmado\" >Aceptar</button>";
+          echo "<button style=\"display:inline;\" class=\"btn btn-success\" name=\"btnAccion\" value=\"confirmado\" >Aceptar</button>";
         }
         echo "<button style=\"display:inline;\" class=\"$clase\" name=\"btnAccion\" value=\"$valorBtn\" >$texto</button>";
         echo "<input type=\"hidden\" name=\"id\" value=\"{$usuario[0]->id}\"><input type=\"hidden\" name=\"lugar\" value=\"perfil\">";
@@ -80,6 +82,8 @@
      } ?></form>
 
 </div>
+
+
 <div class="usuario_menu">
     <ul><li class="opcion"><a href="#">Información</a></li>
         <?php //if($_SESSION['tipo']=="Usuario"){

@@ -1,5 +1,8 @@
-<?php if(!isset($_SESSION)){
-        session_start(); } ?>
+<?php
+  if(!isset($_SESSION)){
+    session_start();
+  }
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -32,8 +35,8 @@
         <th></th>
     </tr>
   <?php
-  if(isset($moderador)){
-    foreach ($moderador as $mod) {
+  if(isset($moderador) && is_iterable($moderador)){
+    foreach($moderador as $mod) {
       echo "<tr>
           <td>$mod->usuario</td>
           <td>$mod->nombre</td>

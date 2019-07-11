@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-        <title>Solicitudes</title>
+        <title>Masctotitas - Solicitudes</title>
         <link rel="stylesheet" type="text/css" href="assets/css/estilo.css" />
         <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

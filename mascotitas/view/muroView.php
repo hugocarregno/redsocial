@@ -3,7 +3,9 @@
 <head>
     <title>Masctotitas - Muro</title>
     <link rel="stylesheet" type="text/css" href="assets/css/estilo.css" />
+    <script type="text/javascript" src="assets/js/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8">
     <meta name="description" content="Red social para amantes de los animales">
@@ -50,9 +52,10 @@
                       echo "<div class=\"publicacion\"><p>$posteo->descripcion</p><img src=\"".DIRECTORIO.'post/'.$posteo->foto1."\" width=\"50%\"></div> ";
                       echo "<div class=\"acciones\"><span> Comentar </span>";
                       if($_SESSION['usuario']==$posteo->usuario){
-                        echo "<span> Editar </span>";
+                        echo "<input type=\"button\" name=\"editar\" value=\"Editar\" id=\"$posteo->id\" class=\"btn btn-info btn-xs edit_data\" />";
                       }
                       echo "<span> Denunciar</span><input type=\"image\" src=\"assets/img/denunciar.png\" width=\"20px\" height=\"20px\"></div>";
+                      //echo "<input type=\"hidden\" name=\"posteoId\" id=\"posteoId\" />";
 
                ?>
               </section>
@@ -74,6 +77,7 @@
 
 
     </div>
+
 <footer>
 	+cotitas 2019
 </footer>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-07-2019 a las 14:47:38
+-- Tiempo de generación: 11-07-2019 a las 03:39:53
 -- Versión del servidor: 10.1.39-MariaDB
 -- Versión de PHP: 7.3.5
 
@@ -52,6 +52,7 @@ CREATE TABLE `administrador` (
 --
 
 CREATE TABLE `amistad` (
+  `id` int(11) NOT NULL,
   `usuarioEmisor` int(11) NOT NULL,
   `usuarioReceptor` int(11) NOT NULL,
   `estado` varchar(15) NOT NULL,
@@ -144,6 +145,7 @@ CREATE TABLE `post` (
   `palabraClave1` varchar(100) DEFAULT NULL,
   `palabraClave2` varchar(100) DEFAULT NULL,
   `palabraClave3` varchar(100) DEFAULT NULL,
+  `visibilidad` varchar(10) NOT NULL,
   `estado` tinyint(1) NOT NULL,
   `idUsuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -184,6 +186,7 @@ ALTER TABLE `administrador`
 -- Indices de la tabla `amistad`
 --
 ALTER TABLE `amistad`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `emisor-usuariositio` (`usuarioEmisor`),
   ADD KEY `receptor-usuariositio` (`usuarioReceptor`);
 
@@ -239,6 +242,12 @@ ALTER TABLE `usuariositio`
 -- AUTO_INCREMENT de la tabla `administrador`
 --
 ALTER TABLE `administrador`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `amistad`
+--
+ALTER TABLE `amistad`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
