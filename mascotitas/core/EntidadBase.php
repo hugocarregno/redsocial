@@ -89,8 +89,18 @@ class EntidadBase{
     }
 
     public function getPublicaciones($value){
-      //SELECT * FROM post p JOIN usuariositio u ON u.id=p.idUsuario WHERE visibilidad='publico' OR idUsuario IN (SELECT usuarioEmisor FROM amistad a WHERE a.usuarioEmisor=1 AND estado='aceptado') OR (SELECT usuarioReceptor FROM amistad a WHERE a.usuarioReceptor=1 AND estado='aceptado')
-      $consulta="SELECT * FROM post p JOIN usuariositio u ON u.id=p.idUsuario WHERE (idUsuario IN (SELECT usuarioEmisor FROM amistad WHERE (usuarioReceptor= '$value' AND estado='aceptado')) OR (SELECT usuarioReceptor FROM amistad WHERE (usuarioEmisor= '$value' AND estado='aceptado')) OR idUsuario ) OR p.visibilidad='publico' ORDER BY p.fecha DESC;";
+      //SELECT * FROM post p JOIN usuariositio u ON u.id=p.idUsuario WHERE visibilidad='publico' OR idUsuario IN (SELECT usuarioEmisor FROM amistad a WHERE a.usuarioEmisor=1 AND estado='aceptado') OR (SELECT usuarioReceptor FROM amistad a WHERE a.usuarioReceptor=1 AND estado='aceptado') OR p.visibilidad='publico' OR idUsuario 
+      $consulta="SELECT * 
+FROM post p 
+JOIN usuariositio u ON u.id=p.idUsuario
+where p.idUsuario in (select usuarioEmisor from amistad where usuarioReceptor = '$value' AND estado='aceptado')
+   or p.idUsuario in (select usuarioReceptor from amistad where usuarioEmisor = '$value' AND estado='aceptado')
+union
+SELECT * 
+FROM post p 
+JOIN usuariositio u ON u.id=p.idUsuario
+where p.idUsuario = '$value';";
+
       $query=$this->db->query($consulta);
       $resultSet=false;
       while($row = $query->fetch_object()) {
