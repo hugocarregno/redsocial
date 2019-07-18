@@ -3,19 +3,20 @@ class UsuarioSitio extends EntidadBase{
     private $id;
     private $usuario;
     private $password;
-    private $usuarioultmod;
-    private $fechaultmod;
-    private $fechaalta;
+    private $usuarioUltMod;
+    private $fechaUltMod;
+    private $fechaAlta;
     private $estado;
     private $nombre;
     private $apellido;
     private $sexo;
     private $mail;
     private $telefono;
-    private $imagenperfil;
+    private $imagenPerfil;
+    private $administrador;
 
     public function __construct($adapter) {
-        $table="usuario_sitio";
+        $table="usuariositio";
         parent::__construct($table,$adapter);
     }
 
@@ -42,20 +43,20 @@ class UsuarioSitio extends EntidadBase{
     public function getUsuarioUltMod(){
         return $this->Usuarioultmod;
     }
-    public function setUsuarioUltMod($usuarioultmod){
-         $this->usuarioultmod=$usuarioultmod;
+    public function setUsuarioUltMod($usuarioUltMod){
+         $this->usuarioUltMod=$usuarioUltMod;
     }
     public function getFechaUltMod(){
-        return $this->fechaultmod;
+        return $this->fechaUltMod;
     }
-    public function setFechaUltMod($fechaultmod){
-        $this->fechaultmod=$fechaultmod;
+    public function setFechaUltMod($fechaUltMod){
+        $this->fechaUltMod=$fechaUltMod;
     }
     public function getFechaAlta(){
-        return $this->fechaalta;
+        return $this->fechaAlta;
     }
-    public function setFechaAlta($fechaalta){
-        $this->fechaalta=$fechaalta;
+    public function setFechaAlta($fechaAlta){
+        $this->fechaAlta=$fechaAlta;
     }
     public function getEstado(){
         return $this->estado;
@@ -100,45 +101,51 @@ class UsuarioSitio extends EntidadBase{
          $this->telefono=$telefono;
     }
     public function getImagenPerfil(){
-        return $this->imagenperfil;
+        return $this->imagenPerfil;
     }
-    public function setImagenPerfil($imagenperfil){
-        $this->imagenperfil=$imagenperfil;
+    public function setImagenPerfil($imagenPerfil){
+        $this->imagenPerfil=$imagenPerfil;
+    }
+    public function getAdministrator(){
+      return $this->administrador;
+    }
+    public function setAdministrador($administrador){
+      $this->administrador=$administrador;
     }
     public function save(){
-
+    //  require_once "Administrador.php";
 
     //verifico si el usuario se encuentra en la BD
 		//sino es null entonces UPDATE
 		//si es null entonces INSERT
 		if($this->id){
-
-			$query= "UPDATE usuario_sitio set usuario = '$this->usuario', password = '$this->password', usuarioultmod = '$this->usuarioultmod', fechaultmod = '$this->fechaultmod', fechaalta = '$this->fechaalta', estado = '$this->estado', nombre = '$this->nombre', apellido = '$this->apellido'
-			,sexo = '$this->sexo', mail = '$this->mail' ,telefono = '$this->telefono', imagenperfil = '$this->imagenperfil' where id = $this->id";
+			$query= "UPDATE usuariositio set usuario = '$this->usuario', password = '$this->password', usuarioUltMod = '$this->usuarioUltMod', fechaUltMod = '$this->fechaUltMod', fechaAlta = '$this->fechaAlta', estado = '$this->estado', nombre = '$this->nombre', apellido = '$this->apellido'
+			,sexo = '$this->sexo', mail = '$this->mail' ,telefono = '$this->telefono', imagenPerfil = '$this->imagenPerfil' where id = $this->id";
 
 			$save=$this->db()->query($query);
 			//$this->db()->error;
 			return $save;
 
 		}else{
-            $query="INSERT INTO usuario_sitio (`id`, `usuario`, `password`, `usuarioultmod`, `fechaultmod`, `fechaalta`, `estado`, `nombre`, `apellido`, `sexo`, `mail`, `telefono`, `imagenperfil`)
-                VALUES(NULL,
-                       '".$this->usuario."',
+            $query="INSERT INTO usuariositio (id, usuario, password, usuarioUltMod, fechaUltMod, fechaAlta, estado, nombre, apellido, sexo, mail, telefono, imagenPerfil)
+                VALUES(NULL,'".$this->usuario."',
                        '".$this->password."',
-                       '".$this->usuarioultmod."',
-                       '".$this->fechaultmod."',
-                       '".$this->fechaalta."',
+                       NULL,
+                       NULL,
+                       '".$this->fechaAlta."',
                        '".$this->estado."',
                        '".$this->nombre."',
                        '".$this->apellido."',
                        '".$this->sexo."',
                        '".$this->mail."',
                        '".$this->telefono."',
-                       '".$this->imagenperfil."');";
+                       '".$this->imagenPerfil."');";
             $save=$this->db()->query($query);
+
             //$this->db()->error;
             return $save;
         }
       }
+
 }
 ?>

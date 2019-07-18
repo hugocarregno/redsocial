@@ -15,10 +15,13 @@ class ControladorBase{
     //funcionalidades comunes a todos los controladores
 
     public function view($vista,$datos){
-        //foreach ($datos as $id_assoc => $valor) {
+      if(is_array($datos) && count($datos)>0){
+        foreach ($datos as $id_assoc => $valor) {
             //define y setea todas las variables que se usarán en la vista
-          //  ${$id_assoc}=$valor;
-      //  }
+            ${$id_assoc}=$valor;
+        }
+      }
+
 
         //crea una instancia con funciones ùtiles para las vistas
         require_once 'core/AyudaVistas.php';

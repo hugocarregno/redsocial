@@ -30,14 +30,12 @@ legend{
 }
 .usuario_nombre, .usuario_nombrecompleto{
 	display: block;
-	margin: 8%;
 	font-size: 16pt;
 	color: #001B31;
 	text-shadow: -1px -1px 14px rgba(255, 255, 255, 1);
 }
 .usuario_nombrecompleto{
-	display: inline-flex;
-	margin: 0%;
+	float: left;
 }
 .usuario{
 	display: flex;
@@ -62,7 +60,7 @@ header nav li{
 	float: left;
 }
 header nav .menu_opcion{
-	margin-left: 50px;
+	margin-left: 500px;
 	padding-top: 20px;
 }
 header nav .opcion a, .opcion a{
@@ -70,13 +68,6 @@ header nav .opcion a, .opcion a{
 }
 header nav a:hover, .opcion a:hover{
 	color:#fff;
-}
-header nav .nombre{
-	margin-top: 10px;
-}
-header nav .rol{
-	margin-top: 10px;
-	font-weight: bold;
 }
 header nav .opcion{
 	background: #5f6061;
@@ -87,7 +78,6 @@ header nav .opcion{
 	font-weight: bold;
 	margin-top: 10px;
 }
-
 header ul{
 	height: 60px;
 }
@@ -97,13 +87,14 @@ header .menu-foto{
 	border-radius: 100px;
 	width: 45px;
 	height: 45px;
+    background-color: #E1E1E0;
 }
 header input{
 	height: 30px;
 	background: transparent;
 	border:0;
 	padding-left: 15px;
-	min-width: 300px;
+	min-width: 300px; 
 }
 header button{
 	height: 30px;
@@ -111,7 +102,7 @@ header button{
 	border:0;
 }
 header form {
-	margin-top: 12px;
+	margin-top: 12px;	
 	border-radius: 100px;
 	background: white;
 	padding-right: 5px;
@@ -134,11 +125,6 @@ section{
 section.publicar{
 	text-align: right;
 	min-height: 150px;
-}
-.titulo{
-	margin-right: 500px;
-	width: 100%;
-	border-radius: 8px 8px 0 0;
 }
 section.publicar textarea{
 	width: 100%;
@@ -181,14 +167,14 @@ div.usuario_menu{
 	border:1px solid #CCCCCC;
 	width:1000px;
 	margin:auto;
-	margin-top:69px;
+	margin-top:30px;
 	background: #fff;
 	font-size: 0px;
 }
 .desplegable{
 	margin-top: 8px;
 	height: 350px;
-
+	
 }
 .foto{
 	padding: 10px;

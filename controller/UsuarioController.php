@@ -1,146 +1,100 @@
 <?php
 class UsuarioController extends ControladorBase{
-    public $conectar;
+  public $conectar;
 	public $adapter;
 
-    public function __construct() {
-        parent::__construct();
-
-        $this->conectar=new Conectar();
-        $this->adapter =$this->conectar->conexion();
+  public function __construct() {
+      parent::__construct();
+      $this->conectar=new Conectar();
+      $this->adapter =$this->conectar->conexion();
     }
 
-		//Listar todos los Usuarios
-		public function index(){
-
-			//Creamos el objeto usuario
-			$usuario=new UsuarioSitio($this->adapter);
-
-			//Conseguimos todos los usuarios
-			//$allusers=$usuario->getAll();
-
-		   //Cargamos la vista index y le pasamos valores
-       $this->view("index","");
-       /*
-			$this->view("index",array(
-				"allusers"=>$allusers,
-				"UnaVariableDeLaVista"    =>"Valor de la Vista"
-			));*/
-		}
-    public function iniciar(){
-
-    			//Creamos el objeto usuario
-    			$usuario=new UsuarioSitio($this->adapter);
-
-    			//Conseguimos todos los usuarios
-    			$allusers=$usuario->getAll();
-
-    		   //Cargamos la vista index y le pasamos valores
-    			$this->view("iniciar",array(
-    				"allusers"=>$allusers,
-    				"UnaVariableDeLaVista"    =>"Valor de la Vista"
-    			));
-    		}
-		//Muestra el formulario de inserción
-		public function insertar(){
-
-			//Conseguimos todos los usuarios
-		//	$provincia=new Provincia($this->adapter);
-	//		$allProvincias= $provincia->getAll();
-
-			//Cargamos la vista para mostrar formulario de insert
-			$this->view("insertar");
-
-		}
-
     public function registrar(){
-      //Creamos el objeto usuario
-      $usuario=new UsuarioSitio($this->adapter);
-
-      //Conseguimos todos los usuarios
-    //  $allusers=$usuario->getAll();
-
-       //Cargamos la vista index y le pasamos valores
-      /*$this->view("registrar",array(
-        "allusers"=>$allusers,
-        "UnaVariableDeLaVista"    =>"Valor de la Vista"
-      ));*/
-      $this->view("registrar",array());
+      $this->view("registrar","");
     }
 
 		//Procesa los datos del formulario de inserción
 		public function crear(){
-			if(isset($_POST["nombre"])){
 
-				//Creamos un usuario
-				$usuario=new UsuarioSitio($this->adapter);
-        $usuario->setUsuario($_POST["usuario"]);
-        $usuario->setPassword($_POST["password"]);
-        $usuario->setUsuarioUltMod(NULL);
-        $hoy=strftime( "%Y-%m-%d-%H-%M-%S", time() );
-        $usuario->setFechaAlta($hoy);
-        $usuario->setFechaUltMod(NULL);
-				$usuario->setNombre($_POST["nombre"]);
-				$usuario->setApellido($_POST["apellido"]);
-        $usuario->setSexo($_POST["sexo"]);
-				$usuario->setMail($_POST["mail"]);
-        $usuario->setTelefono($_POST["telefono"]);
-        $fileName=$_FILES['imagenPerfil']['name'];
-        $tmpName=$_FILES['imagenPerfil']['tmp_name'];
+      $existeUsuario=new UsuarioSitio($this->adapter);
+      $existeModerador=new Moderador($this->adapter);
+      $existeAdmin=new Administrador($this->adapter);
 
-        $fileSize=$_FILES['imagenPerfil']['size'];
-  	    $fileType=$_FILES['imagenPerfil']['type'];
-        if($tmpName==""){
-          echo "esta vacio";
-        }else{
-          echo $tmpName;
-        }
-        //si es menor de 1 mega subirlo
+      if(!$existeUsuario->getBy("usuario",$_POST['usuario']) && !$existeModerador->getBy("usuario",$_POST['usuario']) && !$existeAdmin->getBy("usuario",$_POST['usuario'])){
 
-        if($fileSize<3000000){
-          if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){
+        if(isset($_POST["btn_accion"]) && isset($_POST['usuario']) && trim($_POST['usuario']," ") && isset($_POST['password']) && trim($_POST['password']," ") && isset($_POST['nombre']) && trim($_POST['nombre']," ") &&
+        isset($_POST['apellido']) && trim($_POST['apellido']," ") && isset($_POST['sexo']) && trim($_POST['sexo']," ") && isset($_POST['mail']) && trim($_POST['mail']," ") && isset($_POST['telefono']) &&
+        trim($_POST['telefono']," ") && !empty($_FILES['imagenPerfil']['name']) ){
+				      //Creamos un usuario
+				  $usuario=new UsuarioSitio($this->adapter);
+          $usuario->setUsuario($_POST["usuario"]);
+          $usuario->setPassword(openssl_encrypt($_POST["password"], COD, KEY));
+          //$usuario->setUsuarioUltMod(NULL);
+          date_default_timezone_set("UTC");
+          $hoy=strftime( "%Y-%m-%d", time() );
+          $usuario->setFechaAlta($hoy);
+          //$usuario->setFechaUltMod(NULL);
+				  $usuario->setNombre($_POST["nombre"]);
+				  $usuario->setApellido($_POST["apellido"]);
+          if($_POST["sexo"]=="masculino"){
+            $usuario->setSexo(1);
+          }else{
+            $usuario->setSexo(0);
+          }
+				  $usuario->setMail($_POST["mail"]);
+          $usuario->setTelefono($_POST["telefono"]);
+          $usuario->setEstado(1);
+          $fileName=$_FILES['imagenPerfil']['name'];
+          $tmpName=$_FILES['imagenPerfil']['tmp_name'];
+
+          $fileSize=$_FILES['imagenPerfil']['size'];
+  	      $fileType=$_FILES['imagenPerfil']['type'];
+          if($tmpName==""){
+            echo "esta vacio";
+          }else{
+            echo $tmpName;
+          }
+          //si es menor de 3 mega subirlo
+          if($fileSize<3000000){
+            if($fileType=="image/jpeg" || $fileType=="image/jpg" || $fileType=="image/png" || $fileType=="image/gif"){
         	   echo "<br>";
         	   echo $fileName;
         	   echo "<br>";
         	   echo $tmpName;
-        	   $imagenes=$_SERVER['DOCUMENT_ROOT']."/mascotitas/assets/img/usuario_sitio/";
+        	   $imagenes=$_SERVER['DOCUMENT_ROOT'].DIRECTORIO."Usuario/";
         	   echo "<br>";
         	   echo $imagenes;
         	   $extension=explode("/",$fileType);
         	   $fileName=$usuario->getUsuario().'.'.$extension[1];
         	   $filePath=$imagenes.$fileName;
-        	   echo "<br>";
-        	   echo $filePath;
-        	   echo "<br>";
         	   if($result=move_uploaded_file($tmpName, $filePath)){
-        		    $usuario->setImagenPerfil($filePath);
+        		    $usuario->setImagenPerfil($fileName);
         	   }else{
-                echo "no se subio";
-                exit;
+                  echo "no se subio";
+                  exit;
              }
-        		 }else{
-        				echo "debe subir imagen con extension .jpg .jpeg .gif o .png";
-        		 }
-
-        	}else{
-        	  echo "la imagen supera 1 MB";
-        	}
-
-
-				//al constructor de provincia le paso el id
-			//	$provincia = new Provincia($this->adapter);
-		//		$provincia->setId($_POST["provincia"]);
-		//		$usuario->setProvincia($provincia);
-
-				//$usuario->setPassword(sha1($_POST["password"]));
-        //ver si se puede poner encriptacion
-
+        		}else{
+        				  echo "debe subir imagen con extension .jpg .jpeg .gif o .png";
+                  }
+           }else{
+        	       echo "la imagen supera 3 MB";
+                 }
 				$save=$usuario->save();
-			}
-			$this->redirect("Usuario", "index");
+			  }else{
+              $mensaje='<span>Completar Campos</span>';
+              $this->view("registrar",array("mensaje"=>$mensaje));
+    }
+    $this->redirect("login", "index");
+  }else{
+      echo "<script>alert('El usuario ya existe'); </script>";
+      $mensaje='<span>Ingrese un usuario diferente</span>';
+      $this->view("registrar",array("mensaje"=>$mensaje));
+    }
+
+
 		}
 
-		//Procesa el borrado de unUsuario
+/*		//Procesa el borrado de unUsuario
 		public function borrar(){
 			if(isset($_GET["id"])){
 				$id=(int)$_GET["id"];
@@ -192,35 +146,74 @@ class UsuarioController extends ControladorBase{
 			}
 			$this->redirect("Usuario", "index");
 		}
-
-    public function validarSesion(){
-      $mensaje="";
-
-if(isset($_POST['btn-accion']))
-{
-	$usuario= $_POST['usuario'];
-  $psw= $_POST['psw'];
-	include("conexion.php");
-	session_start();
-
-
-	$consulta= "SELECT * FROM usuario_sitio WHERE usuario='$usuario' AND password='$psw';";
-	$resultado= $mysqli->query($consulta);
-	$fila=$resultado->fetch_array();
-
-	if (!$fila['id'] || !$fila['password']){
-		$mensaje='<span>usuario o contraseña incorrecta</span>';
-	}
-	else{
-		$_SESSION['id'] = $fila['id'];
-		$_SESSION['usuario'] = $fila['usuario'];
-		$_SESSION['password']=$fila['password'];
-
-		//$mensaje='<script>location.href = "menu.php"</script>';
-  //ver si anda  $this->redirect("Usuario", "muro");
-	}
-}
+*/
+    public function perfil(){
+      session_start();
+      if(isset($_POST['usuario']) || isset($_POST['lugar'])){
+        $usuario= new UsuarioSitio($this->adapter);
+        $usuario=$usuario->getBy("usuario",$_POST['busqueda']);
+        if($usuario){
+          //usuario existe
+          $amistad = new Amistad($this->adapter);
+          $amistad = $amistad->getAmistad($_SESSION['id'], $usuario[0]->id);
+          if(($_POST['lugar'])=="muro" && $_SESSION['id'] == $usuario[0]->id){
+            $this->view("perfil","");
+            exit;
+          }
+          if($amistad){
+            //ver que estado tiene
+            $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
+          }else{
+            $this->view("perfil",array("usuario"=>$usuario));
+          }
+      }
     }
+      $this->view("perfil","");
+    }
+
+
+
+  //  public function muro(){
+  //    session_start();
+  //    $this->view("muro","");
+//    }
+
+
+
+    public function buscarUsuario(){
+      session_start();
+      if(isset($_POST['buscar']) && trim($_POST['busqueda']," ")){
+        //si no tiene # se supone que es una persona
+        if($_POST['busqueda'][0]!='#'){
+          //si es el usuario que esta logeado
+          if($_POST['busqueda']==$_SESSION['usuario']){
+            $this->view("perfil","");
+            exit;
+          }
+          $usuario= new UsuarioSitio($this->adapter);
+          $usuario=$usuario->getBy("usuario",$_POST['busqueda']);
+          if($usuario){
+            //usuario existe
+            $amistad = new Amistad($this->adapter);
+            $amistad = $amistad->getAmistad($_SESSION['id'], $usuario[0]->id);
+            if($amistad){
+              $this->view("perfil",array("usuario"=>$usuario,"amistad"=>$amistad));
+            }else{
+              $this->view("perfil",array("usuario"=>$usuario));
+            }
+          }else{
+                echo "<script>alert('El usuario ingresado no existe');</script>";
+                $this->view("muro","");
+                }
+        }else{
+        //palabra clave
+        echo "<script>alert('palabra clave');</script>";
+        }
+      }
+
+
+    }
+
 
 
 }
